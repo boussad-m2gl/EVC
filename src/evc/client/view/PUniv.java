@@ -137,6 +137,16 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                          objectSelector.addItem(cobj.getName());
                 }
    
+                  // ---> To delate :  added to  enable the ineraction 
+               // 
+                MouseInteractor mi = new MouseInteractor (objroot,this) ;
+		BoundingSphere bounds = new BoundingSphere (new Point3d (0.0, 0.0, 0.0),
+		      1.0) ;
+		mi.setSchedulingBounds (bounds) ;
+		// Add the behavior to the scene graph
+		objroot.addChild (mi) ;
+                
+                //  ---> end of to delate
                 return objroot;
 	}
     
@@ -505,6 +515,9 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
           
     }
     
+    public void mouse2PupdateObject(String objname, Vector3d deltapos, Vector3d deltarot){
+              _cuniv.p2cUpdateObject(objname, deltapos, deltarot);
+    }
     
     private void vrmlFileLoaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vrmlFileLoaderActionPerformed
         JFileChooser jfc;
