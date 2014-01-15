@@ -53,6 +53,9 @@ public class CUniv {
                    updateObject(mess.getIdMessage(),mess.getDelta_trans(),mess.getDelta_rot());
                    
           }; break; 
+          case OpType.DELATE_OP: {
+                 delateObject(mess.getIdMessage());
+          }    
           default:  
               System.err.println(" Client received unknown message ");
       }
@@ -97,6 +100,21 @@ public class CUniv {
         }
    }
     
+    public void  delateObject(String objname){
+    
+      
+         
+         CObject objtodelete=null; 
+          for(CObject co :liCntrlObject ){
+           if(co.getName().equals( objname)){
+                 objtodelete=co; break;
+              }
+          }
+         if(objtodelete!= null) {
+            puniv.removeObject(objtodelete.getPrentation().get3DPresentation(), objname);
+             liCntrlObject.remove(objtodelete);
+         }
+    } 
     /*  Translate an object by a specifique value */
    
       
@@ -115,7 +133,9 @@ public class CUniv {
       cli_prx.requestToServerOperation(objId, deltaTrans,delatRot, OpType.UPDATE_OP);
     }
     
-    
+    public void p2cDeleteObject(String objName){
+       cli_prx.requestToServerOperation(objName, new  Vector3d(), new Vector3d(),OpType.DELATE_OP);
+    }
      
     // public void ()
 } 

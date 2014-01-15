@@ -33,6 +33,12 @@ public class C2SImple extends UnicastRemoteObject implements  C2SInterface{
         _prx.diffuseUpdateObject(obId, deltaTrans, delatRot);
     }
 
+    @Override
+    public void c2sDeleteObject(String obId, Vector3d deltaTrans, Vector3d delatRot) throws RemoteException {
+        System.out.println(" Server received delete operation from client  : obj is "+obId);
+        _prx.diffuseDeleteObject(obId);
+    }
+
    
   
     

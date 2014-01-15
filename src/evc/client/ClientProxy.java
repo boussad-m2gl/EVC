@@ -55,7 +55,9 @@ public class ClientProxy {
                     case  OpType.CREATE_OP: clientrmi.getInstance().c2screateObject(0, 0, 0)  ; break ; 
                     case  OpType.UPDATE_OP:{ 
                         clientrmi.getInstance().c2cUpdateObject(objId, deltaTrans, delatRot); } break ; 
-                      
+                    case OpType.DELATE_OP: {
+                         clientrmi.getInstance().c2sDeleteObject(objId, deltaTrans, delatRot);
+                    }  
                      // TODO : add rotation operation        
                 }
 		//rmiServer.c2stranslateObjectLeft(objId, valtrans);

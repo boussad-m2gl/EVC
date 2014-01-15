@@ -22,6 +22,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
@@ -29,6 +31,7 @@ import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
@@ -39,13 +42,15 @@ import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
  */
 public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyListener{
     
+ 
+    //  
     
     private CUniv _cuniv; 
   
     private Transform3D rotate; 
     private BranchGroup scene;
     private int currentObjIndex=0;
-    private String currentObjName; 
+    private String currentObjName=""; 
     
     private  static final float Translation_Value = 0.05f;
     private  static final double Rotation_Value = 0.1d;
@@ -104,6 +109,9 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
          // To delete
           scene.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
           scene.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+          
+          scene.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+          /*scene.setCapability(BranchGroup.ALLOW_DETACH);*/
         //
         
         
@@ -281,6 +289,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         objectSelector = new javax.swing.JComboBox();
         vrmlFileLoader = new javax.swing.JButton();
         butNewObj = new javax.swing.JButton();
+        JBtnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -402,19 +411,33 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             }
         });
 
+        JBtnDelete.setText("Delete");
+        JBtnDelete.setName("deleteBtn"); // NOI18N
+        JBtnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBtnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bSlideLeft)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(bMoveForward, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bMoveBackwards, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(bMoveBackwards, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(butNewObj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JBtnDelete)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bslideRight)
                         .addGap(36, 36, 36)
@@ -438,8 +461,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(butRotZ))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(butNewObj)
-                        .addGap(158, 158, 158)
+                        .addGap(44, 44, 44)
                         .addComponent(vrmlFileLoader)
                         .addGap(102, 102, 102)
                         .addComponent(jLabel1)
@@ -456,7 +478,8 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                     .addComponent(jLabel1)
                     .addComponent(selectedObject)
                     .addComponent(vrmlFileLoader)
-                    .addComponent(butNewObj))
+                    .addComponent(butNewObj)
+                    .addComponent(JBtnDelete))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bMoveForward)
@@ -497,24 +520,33 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
           
           currentObjName = selectObject;
     }//GEN-LAST:event_objectSelectorActionPerformed
-    public  void addObject(TransformGroup transGObj, String idobject){
-        
-            BranchGroup newbranch = new BranchGroup();
-            newbranch.addChild(transGObj);
-            scene.addChild(newbranch);
-            
-            
-            // selector update
-            
-             objectSelector.addItem(idobject);
-             if(selectedObject.getText().equals("")){
-                selectedObject.setText(idobject);
-                currentObjName = idobject;
-             }
-          
-          
+    public void addObject(TransformGroup transGObj, String idobject) {
+
+        System.out.println("PUniv : adding object name :" + idobject);
+        BranchGroup newbranch = new BranchGroup();
+        newbranch.setCapability(BranchGroup.ALLOW_DETACH);
+        newbranch.addChild(transGObj);
+        scene.addChild(newbranch);
+
+
+        // selector update
+
+        objectSelector.addItem(idobject);
+        if (selectedObject.getText().equals("")) {
+            selectedObject.setText(idobject);
+            currentObjName = idobject;
+        }
+
+
     }
     
+    public void removeObject(TransformGroup transGObj, String ObjId){
+     
+        System.out.println("PUniv : removing object name :"+ObjId);
+       // BranchGroup branchToremove= new BranchGroup();
+       // branchToremove.addChild(transGObj);
+        scene.removeChild(transGObj.getParent());
+    }
     public void mouse2PupdateObject(String objname, Vector3d deltapos, Vector3d deltarot){
               _cuniv.p2cUpdateObject(objname, deltapos, deltarot);
     }
@@ -651,6 +683,22 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     public void keyReleased(KeyEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }//GEN-LAST:event_butNewObjActionPerformed
+
+    private void JBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBtnDeleteActionPerformed
+        System.out.println(" ****   Delete  button clicked ! ");
+
+        if (!currentObjName.contains("object")) {
+            JOptionPane.showMessageDialog(this,
+                    "Please choose the object to delete.",
+                    "Error ",
+                    JOptionPane.ERROR_MESSAGE);
+
+
+        } else {
+            System.out.println(" Request to delete the object: " + currentObjName);
+            _cuniv.p2cDeleteObject(currentObjName);
+        }
+    }//GEN-LAST:event_JBtnDeleteActionPerformed
     
     /**
      *
@@ -682,6 +730,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBtnDelete;
     private javax.swing.JButton bLower;
     private javax.swing.JButton bMoveBackwards;
     private javax.swing.JButton bMoveForward;

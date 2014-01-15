@@ -104,6 +104,21 @@ public class ServerProxy  {
   }
  
   
+  public void diffuseDeleteObject(String objectId){
+  
+      System.out.println(" Serveur proxy : diffuse translate object ");
+       try {
+                    // Multicast 
+                /* Evoie des commandes  de creatio de plusieurs objects */
+                SCMessage mes1 = new SCMessage(objectId, OpType.DELATE_OP, new Vector3d(), new Vector3d());
+               
+               mulicastServ.diffuseMessage(mes1);
+               // diffuse(mes2);
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+  }
+  
 }
    
      
