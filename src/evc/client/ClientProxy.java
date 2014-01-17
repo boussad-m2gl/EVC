@@ -52,7 +52,8 @@ public class ClientProxy {
 	try{
 		
                 switch (oper){
-                    case  OpType.CREATE_OP: clientrmi.getInstance().c2screateObject(0, 0, 0)  ; break ; 
+                    case  OpType.CREATE_OP: clientrmi.getInstance().c2screateObject(0, 0, 0)  ; break ;
+                    case  OpType.CREATE_VRMLOP: clientrmi.getInstance().c2screateVRMLObject(0, 0, 0)  ; break ;
                     case  OpType.UPDATE_OP:{ 
                         clientrmi.getInstance().c2cUpdateObject(objId, deltaTrans, delatRot); } break ; 
                     case OpType.DELATE_OP: {

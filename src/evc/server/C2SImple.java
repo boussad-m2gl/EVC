@@ -25,6 +25,11 @@ public class C2SImple extends UnicastRemoteObject implements  C2SInterface{
        System.out.println(" Server received create object .....");
        _prx.diffuseCreateObject(x,y,z);
     }
+    
+    public void c2screateVRMLObject(double x, double y, double z) throws RemoteException {
+       System.out.println(" Server received create object .....");
+       _prx.diffuseCreateVRMLObject(x,y,z);
+    }
 
     @Override
     public void c2cUpdateObject(String obId, Vector3d deltaTrans, Vector3d delatRot) throws RemoteException {

@@ -47,7 +47,7 @@ public class CUniv {
     
       switch( mess.getOperationType()){
       
-          case OpType.CREATE_OP: {  createObject(mess.getIdMessage(),mess.getDelta_trans(),mess.getDelta_rot());
+          case OpType.CREATE_OP: {  createObject(mess.getIdMessage(),mess.getDelta_trans(),mess.getDelta_rot(),mess.getType());
           }; break; 
           case OpType.UPDATE_OP: { //System.out.println("CUniv:right : "); 
                    updateObject(mess.getIdMessage(),mess.getDelta_trans(),mess.getDelta_rot());
@@ -71,11 +71,11 @@ public class CUniv {
   
     // setters / getter 
        
-    public   void createObject(String obId, Vector3d deltapos, Vector3d deltarot){
+    public   void createObject(String obId, Vector3d deltapos, Vector3d deltarot,int typeObjet){
         
          System.out.println(" ****** create obj"+obId+" , X :"+deltapos.x+"  Y :"+deltapos.y+" Z:"+deltapos.z);
          // create object with the correspondig coordinate 
-         CObject obj1 = new CObject(new Vector3d(deltapos.x,deltapos.y,deltapos.z),obId);
+         CObject obj1 = new CObject(new Vector3d(deltapos.x,deltapos.y,deltapos.z),obId,typeObjet);
          liCntrlObject.add(obj1); 
          puniv.addObject(obj1.getPrentation().get3DPresentation(), obId);
          
@@ -123,6 +123,12 @@ public class CUniv {
         cli_prx.requestToServerOperation("", new Vector3d(0,0,0),  new Vector3d(0,0,0),OpType.CREATE_OP);
         
     }  
+    
+    public void p2cCreateVRMLObject(){
+     // cli_prx.requestToServerCreate();
+        cli_prx.requestToServerOperation("", new Vector3d(0,0,0),  new Vector3d(0,0,0),OpType.CREATE_VRMLOP);
+        
+    } 
     
     public void p2cUpdateObject(String objname,Vector3d deltapos, Vector3d deltarot){
         

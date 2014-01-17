@@ -5,7 +5,9 @@
 package evc.client.view;
 
 import com.sun.j3d.utils.geometry.ColorCube;
+import com.sun.j3d.utils.geometry.Cone;
 import evc.client.control.CObject;
+import javax.media.j3d.Appearance;
 import javax.media.j3d.Geometry;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -22,15 +24,15 @@ public class PObject {
     CObject  _cobj;
     TransformGroup _objTrans;
     
-   public  PObject(CObject  cobj){
+   public  PObject(CObject  cobj,int typeObjet){
                 
                  _cobj = cobj;
-                 this.computePresentation();
+                 this.computePresentation(typeObjet);
     }
    
    // Pour le moment il ne fait que faire des cube
    
-   private void computePresentation(){
+   private void computePresentation(int typeObjet){
                 Transform3D translation = new Transform3D();
 		translation.setTranslation(_cobj.getPosition());
 		TransformGroup objTrans = new TransformGroup(translation);
@@ -38,14 +40,24 @@ public class PObject {
 		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		objTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
 		// Create a simple Shape3D node; add it to the scene graph.
-		ColorCube cc = new ColorCube(0.2);
+		if(typeObjet==1){
+                ColorCube cc = new ColorCube(0.2);
                 cc.setName(_cobj.getName());
 		cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
 		objTrans.addChild(cc);
 		_objTrans = objTrans;
                 // set the name
                 _objTrans.setName(_cobj.getAbstraction().getName());
-                
+                }
+                else{
+                    Cone cc = new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, new Appearance());
+                    
+                    cc.setName(_cobj.getName());
+                    objTrans.addChild(cc);
+                    _objTrans = objTrans;
+                    // set the name
+                    _objTrans.setName(_cobj.getAbstraction().getName());
+                }
    }
   
    
