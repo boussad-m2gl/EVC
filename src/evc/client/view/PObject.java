@@ -27,10 +27,10 @@ public class PObject {
     CObject  _cobj;
     TransformGroup _objTrans;
     
-   public  PObject(CObject  cobj){
+   public  PObject(CObject  cobj,int typeObjet){
                 
                  _cobj = cobj;
-                 this.computePresentation();
+                 this.computePresentation(typeObjet);
     }
    
    // Pour le moment il ne fait que faire des cube
@@ -95,7 +95,16 @@ public class PObject {
 		_objTrans = objTrans;
                 // set the name
                 _objTrans.setName(_cobj.getAbstraction().getName());
-                
+                }
+                else{
+                    Cone cc = new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, new Appearance());
+                    
+                    cc.setName(_cobj.getName());
+                    objTrans.addChild(cc);
+                    _objTrans = objTrans;
+                    // set the name
+                    _objTrans.setName(_cobj.getAbstraction().getName());
+                }
    }
   
    

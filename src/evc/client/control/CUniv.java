@@ -197,6 +197,12 @@ public class CUniv {
         
     }  */
     
+    public void p2cCreateVRMLObject(){
+     // cli_prx.requestToServerCreate();
+        cli_prx.requestToServerOperation("", new Vector3d(0,0,0),  new Vector3d(0,0,0),OpType.CREATE_VRMLOP);
+        
+    } 
+    
     public void p2cUpdateObject(String objname,Vector3d deltapos, Vector3d deltarot){
         
        //cli_prx.requestToServerOperation(objname, deltapos, deltarot, OpType.UPDATE_OP); 
