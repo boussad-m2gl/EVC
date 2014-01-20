@@ -58,9 +58,9 @@ public class SCMessage implements java.io.Serializable{
         return _delta_rot;
     }
 
-    public int getType() {
+  /*  public int getType() {
         return _typeObjet;
-    }
+    }*/
     
     public void setDelta_rot(Vector3d _delta_rot) {
         this._delta_rot = _delta_rot;
@@ -85,7 +85,7 @@ public class SCMessage implements java.io.Serializable{
         this._operationType = operationType;
         _delta_trans=delta_trans;
         _delta_rot=delta_rot;
-        _typeObjet=typeObjet;
+       // _typeObjet=typeObjet;
     }
 
     public String getIdMessage() {

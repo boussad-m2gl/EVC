@@ -42,7 +42,7 @@ public class CObject {
     
     public CObject(Vector3d pos,String name,int typeObjet){
        obj = new AObject(pos,name);
-      pobj = new PObject(this,typeObjet);
+      pobj = new PObject(this);
     }
      
     public AObject getAbstraction(){

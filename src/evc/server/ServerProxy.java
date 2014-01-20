@@ -135,14 +135,14 @@ public class ServerProxy  {
      
   }
   
-  public void diffuseCreateVRMLObject(double x, double y, double z){
+ /* public void diffuseCreateVRMLObject(double x, double y, double z){
         System.out.println(" ServerProxy : diffuse create objet");
      try {
            String objId;
            objId="object"+(servObjList.size()+1);
            servObjList.add(objId);     
          // Multicast 
-                /* Evoie des commandes  de creatio de plusieurs objects */
+               
                 SCMessage mes1 = new SCMessage(objId, OpType.CREATE_VRMLOP, new Vector3d (1, 0, -3),
                         new Vector3d (0, 0, 0),typeObjet);
                // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
@@ -153,7 +153,7 @@ public class ServerProxy  {
                     Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
                 }
      
-  }
+  }*/
   
   public void diffuseUpdateObject(String objectId, Vector3d delatTrans ,Vector3d delatRot ){
            System.out.println(" ServerProxy : diffuse translate  objet : by values:  ");

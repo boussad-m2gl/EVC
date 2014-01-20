@@ -171,7 +171,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                // _cuniv.initObjectList();
                 Collection<CObject> liobj =  _cuniv.getListObject();
                 for(CObject cobj : liobj){
-                        objroot.addChild(cobj.getPrentation().get3DPresentation());
+                       // objroot.addChild(cobj.getPrentation().get3DPresentation());
                          objectSelector.addItem(cobj.getName());
                 }
    
@@ -645,7 +645,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             // add it to the scene
             BranchGroup newbranch = new BranchGroup();
             newbranch.addChild(objTrans);
-            _cuniv.p2cCreateVRMLObject();
+            //_cuniv.p2cCreateVRMLObject();
             //scene.addChild(newbranch);
 
         }catch (Exception e){
