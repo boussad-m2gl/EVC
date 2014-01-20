@@ -45,15 +45,17 @@ public class MulticastClient   extends Thread {
                 socket.receive(dgram); // blocks
                 ObjectInputStream o_in = new ObjectInputStream(b_in);
                 SCMessage omes = ( SCMessage)o_in.readObject();
-                //
-                // CALL A CALL BACK FUNCTION TO ACTIVATE 
-                 _cuniv.passMessage(omes);
-                // 
-                System.out.println("  Client side : received , id: "+omes.getIdMessage()+
+                
+                 System.out.println("  Client side : received , id: "+omes.getIdMessage()+
                        "TRANSLATE : x" + omes.getDelta_trans().x+" y:"+omes.getDelta_trans().y+"  z:"+omes.getDelta_trans().z+
                         "ROT: dh" + omes.getDelta_trans().x+" dp:"+omes.getDelta_trans().y+"  dr:"+omes.getDelta_trans().z);
                 dgram.setLength(b.length); // must reset length field!
                 b_in.reset(); // reset so next read is from start of byte[] again
+                //
+                // CALL A CALL BACK FUNCTION TO ACTIVATE 
+                 _cuniv.passMessage(omes);
+                // 
+               
           }
         
          }

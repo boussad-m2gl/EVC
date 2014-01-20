@@ -18,8 +18,43 @@ public class AObject {
    private String _name;  // id 
    private Vector3d _position;
    protected Quat4d rotation;
+   private int _geom;
+   private boolean _vrmlObj=false;
+   private  String _path_vrml;
 
-  
+    public int getGeom() {
+        return _geom;
+    }
+
+    public void setGeom(int _geom) {
+        this._geom = _geom;
+    }
+
+    public boolean isVrmlObj() {
+        return _vrmlObj;
+    }
+
+    public void setVrmlObj(boolean _vrmlObj) {
+        this._vrmlObj = _vrmlObj;
+    }
+
+    public String getPath_vrml() {
+        return _path_vrml;
+    }
+
+    public void setPath_vrml(String _path_vrml) {
+        this._path_vrml = _path_vrml;
+    }
+     
+    public AObject(Vector3d pos, String name, int geom, boolean isvrml,String path_vrml){
+   
+        _position =  pos;
+        _name=  name; 
+        _geom=geom;
+        _vrmlObj=isvrml;
+        _path_vrml=path_vrml;
+        
+    }
    public  AObject(Vector3d pos,String name){
         _position =  pos;
         _name=  name;   

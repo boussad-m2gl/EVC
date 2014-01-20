@@ -6,8 +6,6 @@ package evc.client.control;
 
 import evc.client.abstraction.AObject;
 import evc.client.view.PObject;
-import javax.media.j3d.Transform3D;
-import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
 /**
@@ -32,8 +30,13 @@ public class CObject {
     public final static int OP_ROT_Z=12;*/
     
     
-    public CObject(){
+    /*public CObject(){
        obj = new AObject(new Vector3d(1,0,-3),"Object1");
+       pobj = new PObject(this);
+    }*/
+    
+    public CObject(Vector3d pos, String name, int geom, boolean isvrml,String path_vrml){
+       obj = new AObject(pos, name, geom, isvrml, path_vrml);
        pobj = new PObject(this);
     }
     

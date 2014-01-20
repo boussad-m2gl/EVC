@@ -4,6 +4,7 @@
  */
 package evc.server;
 
+import evc.message.ObjType;
 import evc.message.OpType;
 import evc.message.SCMessage;
 import evc.net.MulticastServer;
@@ -31,7 +32,7 @@ public class ServerProxy  {
    private MulticastServer mulicastServ;
    
    
-   ServerProxy (){
+   public ServerProxy (){
  
         JFrame frame = new JFrame("Server");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,8 +68,55 @@ public class ServerProxy  {
        
    } 
     
-  public void diffuseCreateObject(double x, double y, double z){
-        System.out.println(" ServerProxy : diffuse create objet");
+  public void diffuseInitPointtOfView(){
+      System.out.println("ServerProxy:  Server diffuse init point of view ");
+       
+     try {
+         
+         // Multicast 
+                /* Evoie des commandes  de creatio de plusieurs objects */
+                SCMessage mes1 = new SCMessage("", OpType.INIT_POV_OP, new Vector3d (0, 0,0),//0,0,0
+                        new Vector3d (0, 0, 0),ObjType.SPHERE,false,"");
+               
+               // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
+                // diffuser les orders  au clients 
+                mulicastServ.diffuseMessage(mes1);
+               // diffuse(mes2);
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+  
+  } 
+   
+  // Normally this one will be used to create Objects of type point of view 
+  public void diffuseCreatePOVObject(String objname,double x, double y, double z,int geom, boolean isVrml,
+          String _vrmlPath){
+    
+       System.out.println(" ServerProxy : diffuse create objet (POV) : geometrY : "+geom);
+     try {
+          servObjList.add(objname); 
+         // Multicast 
+                /* Evoie des commandes  de creatio de plusieurs objects */
+                SCMessage mes1 = new SCMessage(objname, OpType.CREATE_POV_OP, new Vector3d (1, 0, -3),//0,0,0
+                        new Vector3d (0, 0, 0),ObjType.SPHERE,false,"");
+             
+               // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
+                // diffuser les orders  au clients 
+                mulicastServ.diffuseMessage(mes1);
+                
+                System.out.println(" diffuse done  coté serveur !");
+               // diffuse(mes2);
+                } catch (IOException ex) {
+                    System.out.println(ex.getStackTrace());
+                    Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+  
+  
+  }
+  
+  
+  public void diffuseCreateObject(double x, double y, double z,int geom, boolean isVrml, String _vrmlPath){
+        System.out.println(" ServerProxy : diffuse create objet : geometrY : "+geom);
      try {
            String objId;
            objId="object"+(servObjList.size()+1);
@@ -76,7 +124,7 @@ public class ServerProxy  {
          // Multicast 
                 /* Evoie des commandes  de creatio de plusieurs objects */
                 SCMessage mes1 = new SCMessage(objId, OpType.CREATE_OP, new Vector3d (1, 0, -3),
-                        new Vector3d (0, 0, 0));
+                        new Vector3d (0, 0, 0),geom,isVrml,_vrmlPath);
                // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
                 // diffuser les orders  au clients 
                 mulicastServ.diffuseMessage(mes1);
@@ -117,7 +165,7 @@ public class ServerProxy  {
                 } catch (IOException ex) {
                     Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
                 }
-  }
+           }
   
 }
    

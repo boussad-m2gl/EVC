@@ -4,13 +4,18 @@
  */
 package evc.client.view;
 
+import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.geometry.ColorCube;
+import com.sun.j3d.utils.geometry.Cone;
 import evc.client.control.CObject;
+import evc.message.ObjType;
+import javax.media.j3d.Appearance;
 import javax.media.j3d.Geometry;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
+import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
 
 /**
  *
@@ -31,6 +36,7 @@ public class PObject {
    // Pour le moment il ne fait que faire des cube
    
    private void computePresentation(){
+       
                 Transform3D translation = new Transform3D();
 		translation.setTranslation(_cobj.getPosition());
 		TransformGroup objTrans = new TransformGroup(translation);
@@ -38,10 +44,54 @@ public class PObject {
 		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		objTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
 		// Create a simple Shape3D node; add it to the scene graph.
-		ColorCube cc = new ColorCube(0.2);
-                cc.setName(_cobj.getName());
-		cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
-		objTrans.addChild(cc);
+                
+                switch(_cobj.getAbstraction().getGeom()){
+                    case ObjType.CUBE: {
+                    
+                    ColorCube cc = new ColorCube(0.2);
+                   cc.setName(_cobj.getName());
+		   cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
+		   objTrans.addChild(cc);
+                    
+                    } ; break;
+                    case ObjType.CONE :{
+                    
+                   Cone cc = new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, new Appearance());
+                   cc.setName(_cobj.getName());
+		   // cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
+		   objTrans.addChild(cc);
+                    
+                    };break;
+                    case ObjType.SPHERE:{
+                       System.out.println(" create a sphere not yet implemeneted .... ");
+                    
+                    }; break;
+                    default :{
+                     if(_cobj.getAbstraction().isVrmlObj()==true){
+                        
+                         
+                          VrmlLoader loader = new VrmlLoader () ;
+                            try {
+                                   System.out.println(" PObjet : load the file :"+"vrmlFiles/"+_cobj.getAbstraction().getPath_vrml());
+                                    Scene scenevrml = loader.load (_cobj.getAbstraction().getPath_vrml()) ; //selFile.getAbsolutePath(
+                                    objTrans.addChild (scenevrml.getSceneGroup ()) ;
+                            
+                            }catch (Exception e){
+
+                                        e.printStackTrace();
+                            }   
+                         
+                         
+                         
+                         
+                         
+                       }else{
+                           System.out.println("unknow object type");
+                         }
+                     }
+                          
+                }
+                                
 		_objTrans = objTrans;
                 // set the name
                 _objTrans.setName(_cobj.getAbstraction().getName());

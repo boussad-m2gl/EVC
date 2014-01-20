@@ -14,19 +14,25 @@ import com.sun.j3d.utils.picking.PickResult;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import evc.client.control.CObject;
 import evc.client.control.CUniv;
+import evc.message.ObjType;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -49,7 +55,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
   
     private Transform3D rotate; 
     private BranchGroup scene;
-    private int currentObjIndex=0;
+   // private int currentObjIndex=0;
     private String currentObjName=""; 
     
     private  static final float Translation_Value = 0.05f;
@@ -126,6 +132,30 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         // This will move the ViewPlatform back a bit so the
         // objects in the scene can be viewed.
         u.getViewingPlatform ().setNominalViewingTransform () ;
+        
+        
+        //  Set the backgound image :
+        
+     /*    BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("backImage/space2.jpeg"));
+        } catch (IOException ex) {
+            Logger.getLogger(PUniv.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ImageComponent2D imageComponent2D = new ImageComponent2D(ImageComponent2D.FORMAT_RGB, image);
+        
+        Background background = new Background();
+        
+        BoundingSphere sphere = new BoundingSphere(new Point3d(0,0,0), 100000);
+        background.setApplicationBounds(sphere);
+        
+        background.setImage(imageComponent2D);
+        
+        BranchGroup brback = new BranchGroup();
+        brback.addChild(background);
+        u.getViewingPlatform ().addChild(brback);*/
+        
+        
    }
     
     public BranchGroup createSceneGraph(){
@@ -290,6 +320,8 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         vrmlFileLoader = new javax.swing.JButton();
         butNewObj = new javax.swing.JButton();
         JBtnDelete = new javax.swing.JButton();
+        jBtnCone = new javax.swing.JButton();
+        jbtnClientPov = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -404,7 +436,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             }
         });
 
-        butNewObj.setText("new Object");
+        butNewObj.setText("Cube");
         butNewObj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butNewObjActionPerformed(evt);
@@ -419,22 +451,40 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             }
         });
 
+        jBtnCone.setText("Cone");
+        jBtnCone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnConeActionPerformed(evt);
+            }
+        });
+
+        jbtnClientPov.setText("pov");
+        jbtnClientPov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnClientPovActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bSlideLeft)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bSlideLeft)
+                        .addComponent(butNewObj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnCone)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(bMoveForward, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bMoveBackwards, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(butNewObj)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addComponent(JBtnDelete)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -448,7 +498,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(objectSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, Short.MAX_VALUE)
                                 .addComponent(jButton12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton18)
@@ -457,9 +507,12 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(butRotX)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(butRotY)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(butRotZ))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtnClientPov)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(butRotY)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(butRotZ))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(vrmlFileLoader)
@@ -473,13 +526,18 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(selectedObject)
-                    .addComponent(vrmlFileLoader)
-                    .addComponent(butNewObj)
-                    .addComponent(JBtnDelete))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(selectedObject)
+                            .addComponent(vrmlFileLoader)
+                            .addComponent(JBtnDelete)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(butNewObj)
+                        .addComponent(jBtnCone))
+                    .addComponent(jbtnClientPov))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bMoveForward)
@@ -515,13 +573,16 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     private void objectSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectSelectorActionPerformed
           String selectObject= (String)objectSelector.getSelectedItem();
           String indexstr = selectObject.substring(selectObject.length()-1, selectObject.length());
-          currentObjIndex= Integer.valueOf(indexstr)-1;
+         // currentObjIndex= Integer.valueOf(indexstr)-1;
           selectedObject.setText(indexstr );
           
           currentObjName = selectObject;
     }//GEN-LAST:event_objectSelectorActionPerformed
     public void addObject(TransformGroup transGObj, String idobject) {
 
+       
+        
+        
         System.out.println("PUniv : adding object name :" + idobject);
         BranchGroup newbranch = new BranchGroup();
         newbranch.setCapability(BranchGroup.ALLOW_DETACH);
@@ -551,7 +612,8 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
               _cuniv.p2cUpdateObject(objname, deltapos, deltarot);
     }
     
-    private void vrmlFileLoaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vrmlFileLoaderActionPerformed
+    
+    private void savedVrmlLoadedActionPerformed(){
         JFileChooser jfc;
         jfc = new JFileChooser();     
         File f = new File(System.getProperty("user.dir"));
@@ -562,6 +624,8 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         jfc.setFileFilter(filterVrml);
         jfc.showOpenDialog(this);
         File selFile = jfc.getSelectedFile();
+        
+        
         VrmlLoader loader = new VrmlLoader () ;
         try {
             Scene scenevrml = loader.load (selFile.getAbsolutePath()) ;
@@ -587,22 +651,56 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             
             e.printStackTrace();
         }
+    
+    }
+    private void vrmlFileLoaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vrmlFileLoaderActionPerformed
+        JFileChooser jfc;
+        jfc = new JFileChooser();     
+        File f = new File(System.getProperty("user.dir"));
+        jfc.setCurrentDirectory(f);
+       // jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        javax.swing.filechooser.FileFilter filterVrml = new FileTypeFilter(".wrl", "vrml files");
+        jfc.setFileFilter(filterVrml);
+        jfc.showOpenDialog(this);
+        File selFile = jfc.getSelectedFile();
+        
+        // at this point make arequest 
+        
+        _cuniv.p2cCreateObject(new Vector3d(0,0,0),new Vector3d(0,0,0),-1,true,("vrmlFiles/"+selFile.getName()));
+        
+       
+      /*  VrmlLoader loader = new VrmlLoader () ;
+        try {
+            Scene scenevrml = loader.load ("vrmlFiles/"+selFile.getName()) ; //selFile.getAbsolutePath(
+
+            Transform3D translation = new Transform3D();
+            translation.setTranslation(new Vector3d(-1,1,-3));
+            TransformGroup objTrans = new TransformGroup(translation);
+           // objTrans.setName("Object"+myListOfObjects.size());
+            objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    objTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
+            objTrans.addChild (scenevrml.getSceneGroup ()) ;
+            // add it to the list
+            //TODO : CompletER CES LIGNE DE loader VRML 
+             //   myListOfObjects.add(objTrans);
+             //   objectSelector.addItem("Object"+myListOfObjects.size()+1);
+            // add it to the scene
+            BranchGroup newbranch = new BranchGroup();
+            newbranch.addChild(objTrans);
+            scene.addChild(newbranch);
+
+        }catch (Exception e){
+            
+            e.printStackTrace();
+        }*/
         
     }//GEN-LAST:event_vrmlFileLoaderActionPerformed
 
     private void butNewObjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNewObjActionPerformed
          
-        _cuniv.p2cCreateObject();
-        /*
-          BranchGroup newbranch = new BranchGroup();  
-          //  To delete  :
-          //
-         TransformGroup  obj = createColorCube(new Vector3d(-1,1,-3),"Object"+(myListOfObjects.size()+1));
-          myListOfObjects.add(obj);
-          objectSelector.addItem("Object"+myListOfObjects.size());
-          newbranch.addChild(obj);   
-          scene.addChild(newbranch);*/
-          
+        _cuniv.p2cCreateObject(new Vector3d(0,0,0),new Vector3d(0,0,0),ObjType.CUBE,false,"");
         
     }
 
@@ -636,7 +734,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
           currentObjName = selectObject;
           
           String indexstr = selectObject.substring(selectObject.length()-1, selectObject.length());
-          currentObjIndex= Integer.valueOf(indexstr)-1;
+         int currentObjIndex= Integer.valueOf(indexstr)-1;
           selectedObject.setText(indexstr ); 
           objectSelector.setSelectedIndex(currentObjIndex);
 
@@ -648,6 +746,26 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 
     }
 
+    }
+    
+    //  The coordinate about witch to move the camera
+     public void c2pMoveCamera(double x, double y, double z){
+    
+        
+         Vector3d vectTrans= new Vector3d(x,y,z);
+         Transform3D oldT3D = new Transform3D();
+         TransformGroup camera = u.getViewingPlatform().getViewPlatformTransform();
+         camera.getTransform(oldT3D);  
+         Transform3D  localT3D = new Transform3D();
+         localT3D.setTranslation(vectTrans);
+         Transform3D newT3D = new Transform3D();
+         newT3D.mul(oldT3D,localT3D);          
+         camera.setTransform(newT3D);
+         
+        // myPOV.setTransform(newT3D);
+         System.out.println(" New myPOV caracteristics are :  ");
+               // System.out.println(" Position  x: " +myPOV.getPosition().x+" y :"+myPOV.getPosition().y+" z:"+myPOV.getPosition().z);
+       
     }
 
     @Override
@@ -699,6 +817,16 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             _cuniv.p2cDeleteObject(currentObjName);
         }
     }//GEN-LAST:event_JBtnDeleteActionPerformed
+
+    private void jBtnConeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConeActionPerformed
+        _cuniv.p2cCreateObject(new Vector3d(0,0,0),new Vector3d(0,0,0),ObjType.CONE,false,"");
+    }//GEN-LAST:event_jBtnConeActionPerformed
+
+    private void jbtnClientPovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnClientPovActionPerformed
+         //  Register POV inside the server  :
+        
+        _cuniv.initializePOV();
+    }//GEN-LAST:event_jbtnClientPovActionPerformed
     
     /**
      *
@@ -741,12 +869,14 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     private javax.swing.JButton butRotX;
     private javax.swing.JButton butRotY;
     private javax.swing.JButton butRotZ;
+    private javax.swing.JButton jBtnCone;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton jbtnClientPov;
     private javax.swing.JComboBox objectSelector;
     private javax.swing.JLabel selectedObject;
     private javax.swing.JButton vrmlFileLoader;

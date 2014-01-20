@@ -6,6 +6,7 @@ package evc.client;
 
 import evc.client.control.CObject;
 import evc.client.control.CUniv;
+import evc.message.ObjType;
 import evc.message.OpType;
 import evc.net.MulticastClient;
 import evc.net.RmiClient;
@@ -44,15 +45,53 @@ public class ClientProxy {
      new ClientProxy ();
   }
  
+  public void reQ2ServerCreate(Vector3d deltaTrans, Vector3d delatRot, 
+          int geom, boolean isVrml, String _vrmlPath){
+    try{
+            clientrmi.getInstance().c2screateObject(0, 0, 0, geom, isVrml, _vrmlPath);
+       }catch(RemoteException e){
+		e.printStackTrace();
+       }
+  }
 
-  public  void requestToServerOperation(String objId, Vector3d deltaTrans, Vector3d delatRot, int oper){
+  
+    public void reQ2ServerUpdate(String objId, Vector3d deltaTrans, Vector3d delatRot){
+        try{
+          clientrmi.getInstance().c2cUpdateObject(objId, deltaTrans, delatRot); 
+        }catch(RemoteException e){
+		e.printStackTrace();
+       }
+       
+    }
+    
+    
+     public void reQ2ServerDelete(String objId, Vector3d deltaTrans, Vector3d delatRot){
+       
+          try{
+                clientrmi.getInstance().c2sDeleteObject(objId, deltaTrans, delatRot);
+            }catch(RemoteException e){
+		e.printStackTrace();
+       }
+          
+        
+    }
+     
+    public void reQ2ServerCreatePOV(String pov_name){
+      try{
+                clientrmi.getInstance().c2sCreatePOV(pov_name);
+            }catch(RemoteException e){
+		e.printStackTrace();
+       }
+    }
+     
+  /*  public  void requestToServerOperation(String objId, Vector3d deltaTrans, Vector3d delatRot, int oper){
 
     
        
 	try{
 		
                 switch (oper){
-                    case  OpType.CREATE_OP: clientrmi.getInstance().c2screateObject(0, 0, 0)  ; break ; 
+                    case  OpType.CREATE_OP: clientrmi.getInstance().c2screateObject(0, 0, 0,ObjType.CUBE, false,null)  ; break ; 
                     case  OpType.UPDATE_OP:{ 
                         clientrmi.getInstance().c2cUpdateObject(objId, deltaTrans, delatRot); } break ; 
                     case OpType.DELATE_OP: {
@@ -66,7 +105,7 @@ public class ClientProxy {
 		e.printStackTrace();
 	}
 	
-	}
+	}*/
  
 }
 

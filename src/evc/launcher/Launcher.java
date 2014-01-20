@@ -18,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class Launcher extends javax.swing.JFrame {
 
+    private ServerProxy   _srvproxy; 
+    
     /**
      * Creates new form Launcher
      */
@@ -69,7 +71,7 @@ public class Launcher extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3))
                     .addComponent(jButton1))
-                .addGap(0, 52, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,12 +99,12 @@ public class Launcher extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2))
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -142,11 +144,12 @@ public class Launcher extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          String args[]={""};
         jLabel3.setText("ON");
-        try {
-                ServerProxy.main(args);
-            } catch (IOException ex) {
-                Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
-            }
+       // try {
+               // ServerProxy.main(args);
+             _srvproxy = new ServerProxy();
+        //    } catch (IOException ex) {
+            //    Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
+          //  }
         jButton1.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
