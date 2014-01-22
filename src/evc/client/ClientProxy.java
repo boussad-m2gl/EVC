@@ -76,9 +76,9 @@ public class ClientProxy {
         
     }
      
-    public void reQ2ServerCreatePOV(String pov_name){
+    public void reQ2ServerCreatePOV(String pov_name,Vector3d vectTrans){
       try{
-                clientrmi.getInstance().c2sCreatePOV(pov_name);
+                clientrmi.getInstance().c2sCreatePOV(pov_name,vectTrans);
             }catch(RemoteException e){
 		e.printStackTrace();
        }

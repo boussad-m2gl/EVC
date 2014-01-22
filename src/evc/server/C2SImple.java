@@ -50,9 +50,9 @@ public class C2SImple extends UnicastRemoteObject implements  C2SInterface{
     }
 
     @Override
-    public void c2sCreatePOV(String povid) throws RemoteException {
+    public void c2sCreatePOV(String povid,Vector3d vectTrans) throws RemoteException {
          System.out.println(" Server received create <POV> from client  : obj is "+povid);
-         _prx.diffuseCreatePOVObject(povid, 0, 0, 0, ObjType.SPHERE, false, "");
+         _prx.diffuseCreatePOVObject(povid, vectTrans.x,vectTrans.y, vectTrans.z, ObjType.SPHERE, false, "");
     }
 
    

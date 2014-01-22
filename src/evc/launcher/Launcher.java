@@ -142,8 +142,7 @@ public class Launcher extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         String args[]={""};
-        jLabel3.setText("ON");
+
        // try {
                // ServerProxy.main(args);
              _srvproxy = new ServerProxy();

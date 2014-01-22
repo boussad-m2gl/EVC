@@ -4,10 +4,12 @@
  */
 package evc.launcher;
 
+import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.geometry.Sphere;
 import evc.client.control.CObject;
 import java.awt.Color;
 import javax.media.j3d.Appearance;
+import javax.media.j3d.Geometry;
 import javax.media.j3d.Material;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -22,32 +24,39 @@ import javax.vecmath.Vector3d;
 public class PointOfView {
  
     CPointOfView _cpov;
-    
-    
-    public PointOfView(CPointOfView cpv){
-        _cpov = cpv;
-    }
-     
+        
     //CObject  _cobj;
     
     TransformGroup _pofvTrans;
     
-   public PointOfView(){
+   public PointOfView(CPointOfView cpv){
               
+               _cpov = cpv;
+               
+               
                Transform3D translation = new Transform3D();
-		translation.setTranslation(new Vector3d(0,0,-3));
+		translation.setTranslation(_cpov.getPosition()); // new Vector3d(0,0,-3)
 		TransformGroup objTrans = new TransformGroup(translation);
 		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		objTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
                 
-                Sphere sphere = new Sphere(0.25f);
+                
+                /* ColorCube cc = new ColorCube(0.2);
+                   cc.setName(_cobj.getName());
+		   cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
+		   objTrans.addChild(cc);*/
+                
+                Sphere sphere = new Sphere(0.10f);  // Sphere(0.25f);
+                sphere.setName(_cpov.getName());
 		Appearance sphereAppearance = new Appearance();
 		Color3f c3f = new Color3f(Color.WHITE);
 		sphereAppearance.setMaterial(new Material(c3f, c3f, c3f, c3f, .5f));
 		sphere.setAppearance(sphereAppearance);
-		_pofvTrans= objTrans;
-		_pofvTrans.addChild(sphere);
+                objTrans.addChild(sphere);
+                
+                _pofvTrans= objTrans;
+                 _pofvTrans.setName(_cpov.getAbstraction().getName());
     }
     
    public TransformGroup getPresentation3d(){

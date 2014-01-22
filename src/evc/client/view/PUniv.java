@@ -15,6 +15,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import evc.client.control.CObject;
 import evc.client.control.CUniv;
 import evc.message.ObjType;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.KeyEvent;
@@ -28,6 +29,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
@@ -39,6 +41,7 @@ import javax.media.j3d.TransformGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
@@ -84,7 +87,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         // Peaker
         
         // To DELETE :  
-            
+        
    }
 
    /* private PUnivers() {
@@ -100,6 +103,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 
         // To delete
             c.addMouseListener(this);
+            c.addKeyListener(this);
         // end of to de
         
 	// Create a simple scene and attach it to the virtual universe
@@ -109,9 +113,28 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
  	// création d'un navigateur
 	TransformGroup vpTrans = u.getViewingPlatform ().getViewPlatformTransform () ;
 	KeyNavigatorBehavior keyNavBeh = new KeyNavigatorBehavior (vpTrans) ;
-	keyNavBeh.setSchedulingBounds (new BoundingSphere (new Point3d (), 1000.0)) ;
+	keyNavBeh.setSchedulingBounds (new BoundingSphere (new Point3d (), 1000.0)) ;  
 	scene.addChild (keyNavBeh) ;
 
+        //  Adding lights 
+        
+        BoundingSphere worldBounds = new BoundingSphere(new Point3d(0.0, 0.0,
+        0.0), // Center
+        1000.0); // Extent
+
+    // Set the light color and its influencing bounds
+     /*   AmbientLight light = new AmbientLight();
+        light.setEnable(true);
+        Color3f c3f = new Color3f(Color.BLUE); 
+        light.setColor(c3f);
+        light.setCapability(AmbientLight.ALLOW_STATE_WRITE);
+        light.setCapability(AmbientLight.ALLOW_COLOR_WRITE);
+        light.setInfluencingBounds(worldBounds);
+       
+        scene.addChild(light);*/
+        
+        
+        
          // To delete
           scene.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
           scene.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
@@ -136,13 +159,13 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         
         //  Set the backgound image :
         
-     /*    BufferedImage image = null;
+        BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("backImage/space2.jpeg"));
+            image = ImageIO.read(new File("backImage/space3.jpeg"));
         } catch (IOException ex) {
             Logger.getLogger(PUniv.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ImageComponent2D imageComponent2D = new ImageComponent2D(ImageComponent2D.FORMAT_RGB, image);
+       /* ImageComponent2D imageComponent2D = new ImageComponent2D(ImageComponent2D.FORMAT_RGB, image);
         
         Background background = new Background();
         
@@ -580,7 +603,9 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     }//GEN-LAST:event_objectSelectorActionPerformed
     public void addObject(TransformGroup transGObj, String idobject) {
 
-       
+       // To delete  :  
+        System.out.println(" PUniv: set the name ob the trans obj to :"+idobject);
+        transGObj.setName(idobject);
         
         
         System.out.println("PUniv : adding object name :" + idobject);
@@ -601,6 +626,16 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 
     }
     
+    
+    public void addObjectToSelect(String idobject){
+    
+       objectSelector.addItem(idobject);
+        if (selectedObject.getText().equals("")) {
+            selectedObject.setText(idobject);
+            currentObjName = idobject;
+        }
+
+    }
     public void removeObject(TransformGroup transGObj, String ObjId){
      
         System.out.println("PUniv : removing object name :"+ObjId);
@@ -709,43 +744,36 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     public void mouseClicked(MouseEvent e) {
         
         pickCanvas.setShapeLocation(e);
+        PickResult result = pickCanvas.pickClosest();
 
-       PickResult result = pickCanvas.pickClosest();
+           if (result == null) {
 
-     if (result == null) {
+              System.out.println("Nothing picked");
 
-       System.out.println("Nothing picked");
+           } else {
 
-    } else {
+                       Primitive p = (Primitive)result.getNode(PickResult.PRIMITIVE);
 
-       Primitive p = (Primitive)result.getNode(PickResult.PRIMITIVE);
+                       Shape3D s = (Shape3D)result.getNode(PickResult.SHAPE3D);
 
-       Shape3D s = (Shape3D)result.getNode(PickResult.SHAPE3D);
+                       if (p != null) {
 
-       if (p != null) {
+                          System.out.println("p!=null : "+p.getName());
 
-          System.out.println("p!=null : "+p.getName());
+                       } else if (s != null) {
+                                    System.out.println(" selected objet is : "+s.getName());
+                                    String selectObject= s.getName();
+                                    currentObjName = selectObject;
+                                  
+                                    String indexstr = selectObject.substring(selectObject.length()-1, selectObject.length());
+                                    int currentObjIndex= Integer.valueOf(indexstr)-1;
+                                    selectedObject.setText(indexstr ); 
+                                    objectSelector.setSelectedIndex(currentObjIndex);
 
-       } else if (s != null) {
-
-      
-            System.out.println(" selected objet is : "+s.getName());
-          String selectObject= s.getName();
-          
-          currentObjName = selectObject;
-          
-          String indexstr = selectObject.substring(selectObject.length()-1, selectObject.length());
-         int currentObjIndex= Integer.valueOf(indexstr)-1;
-          selectedObject.setText(indexstr ); 
-          objectSelector.setSelectedIndex(currentObjIndex);
-
-       } else{
-
-          System.out.println("null");
-
-       }
-
-    }
+                                } else{
+                                        System.out.println("null");
+                                      }
+                  }  // end else
 
     }
     
@@ -765,13 +793,34 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
          
         // myPOV.setTransform(newT3D);
          System.out.println(" New myPOV caracteristics are :  ");
-               // System.out.println(" Position  x: " +myPOV.getPosition().x+" y :"+myPOV.getPosition().y+" z:"+myPOV.getPosition().z);
+        // System.out.println(" Position  x: " +myPOV.getPosition().x+" y :"+myPOV.getPosition().y+" z:"+myPOV.getPosition().z);
        
     }
+     
+     
+     public void allumerLumiere(){
+         TransformGroup camera = u.getViewingPlatform().getViewPlatformTransform();
+            
+     }
 
+     public void c2pRotateCamera(double r, double y, double z){
+         
+         
+                TransformGroup transCam = u.getViewingPlatform().getViewPlatformTransform();
+                Transform3D oldT3D = new Transform3D();
+                transCam.getTransform(oldT3D);
+                Vector3d rotate = new Vector3d();
+                rotate.set(r, y, z);
+                Transform3D localT3D = new Transform3D();
+                localT3D.setEuler(rotate);
+                Transform3D newT3D = new Transform3D();
+                newT3D.mul(oldT3D, localT3D);
+                transCam.setTransform(newT3D);
+     }
+     
     @Override
     public void mousePressed(MouseEvent e) {
-         // System.out.println("  Mouse pressed ");
+         //System.out.println("  Mouse pressed ");
     }
 
     @Override
@@ -785,22 +834,51 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 
     @Override
     public void mouseExited(MouseEvent e) {
-       // System.out.println("  Mouse exited ");
+        //System.out.println("  Mouse exited ");
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+      //  System.out.println("  Key taped ....  PUniv");
+       if(e.getKeyChar()=='U'  || e.getKeyChar()=='u' ){
+             //c2pMoveCamera(0,0.1,0);
+            _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0.1,0), new Vector3d(0,0,0));
+         }
+         
+         if(e.getKeyChar()=='D'  || e.getKeyChar()=='d' ){
+                /// c2pMoveCamera(0,-0.1,0);
+               _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,-0.1,0), new Vector3d(0,0,0));
+         }
+         
+         if(e.getKeyChar()=='L'  || e.getKeyChar()=='l' ){
+             // c2pMoveCamera(-0.1,0,0);
+               _cuniv.p2cUpdateObject(currentObjName, new Vector3d(-0.1,0,0), new Vector3d(0,0,0));
+         }
+         
+         if(e.getKeyChar()=='R'  || e.getKeyChar()=='r' ){
+              //c2pMoveCamera(0.1,0,0);
+             _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0.1,0,0), new Vector3d(0,0,0));
+         }
+         
+         if(e.getKeyChar()=='F'  || e.getKeyChar()=='f' ){
+              //c2pMoveCamera(0.1,0,0);
+             _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,0.1), new Vector3d(0,0,0));
+         }
+         if(e.getKeyChar()=='B'  || e.getKeyChar()=='b' ){
+              //c2pMoveCamera(0.1,0,0);
+             _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,-0.1), new Vector3d(0,0,0));
+         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       // throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }//GEN-LAST:event_butNewObjActionPerformed
 
     private void JBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBtnDeleteActionPerformed
@@ -820,13 +898,21 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     }//GEN-LAST:event_JBtnDeleteActionPerformed
 
     private void jBtnConeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConeActionPerformed
+       
         _cuniv.p2cCreateObject(new Vector3d(0,0,0),new Vector3d(0,0,0),ObjType.CONE,false,"");
     }//GEN-LAST:event_jBtnConeActionPerformed
 
     private void jbtnClientPovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnClientPovActionPerformed
          //  Register POV inside the server  :
+         // Récupérere les coordonnées actuelle de la  caméra. 
         
-        _cuniv.initializePOV();
+         Vector3d vectTransActuel= new Vector3d(0,0,0);
+         Transform3D oldT3D = new Transform3D();
+         TransformGroup camera = u.getViewingPlatform().getViewPlatformTransform();
+         camera.getTransform(oldT3D);
+         oldT3D.get(vectTransActuel);
+         // TODO enter rotation mettre dans methode init
+        _cuniv.initializePOV(vectTransActuel);
     }//GEN-LAST:event_jbtnClientPovActionPerformed
     
     /**

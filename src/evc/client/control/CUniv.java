@@ -66,7 +66,7 @@ public class CUniv {
           } 
           case OpType.INIT_POV_OP :{
               System.out.println(" CUniv : received REQ initialisation of POV  ");
-              initializePOV();
+             // initializePOV();
           } ;break;
           case OpType.CREATE_POV_OP:{  // pour creer Un poiv , il on a besoin de sont id c'est tt, as defaut c'est une sphere
              System.out.println(" CUniv : received creation of POV  ");
@@ -86,19 +86,19 @@ public class CUniv {
     
     }
     
-    public void initializePOV(){
+    public void initializePOV(Vector3d vectTrans){
            //  demande de un identifaint unique pour creater un point de vue 
            UUID idOne = UUID.randomUUID();
            String uddipov = idOne.toString(); 
            POV_TAG = uddipov;
            System.out.println("  CUniv : pov initialized well id :"+uddipov);
-           Cuniv2ServerRegisterPov(uddipov);
+           Cuniv2ServerRegisterPov(uddipov, vectTrans);
     
     }
   
-    public void Cuniv2ServerRegisterPov (String pov_name){
+    public void Cuniv2ServerRegisterPov (String pov_name,Vector3d vectTrans){
         
-       cli_prx.reQ2ServerCreatePOV(pov_name);
+       cli_prx.reQ2ServerCreatePOV(pov_name,vectTrans);
     }
     
     
@@ -110,7 +110,12 @@ public class CUniv {
          //  Creer un point un point de vue , l'ajouter a l'univer
          CPointOfView  cntrlpov = new CPointOfView(obId, deltapos,geom ); //  control pov ok :
          _listCPOV.add(cntrlpov);
-         puniv.addObject(cntrlpov.getPrentation().get3DPresentation(), obId);
+          if(! obId.equals(POV_TAG)){ // ne pas l'ajouter si c'est son caméra 
+             puniv.addObject(cntrlpov.getPrentation().get3DPresentation(), obId);
+          }else{ // c'est notre caméra
+             puniv.addObjectToSelect(obId);
+           }
+        
     }
     
     
@@ -143,6 +148,7 @@ public class CUniv {
            if(co.getName().equals( objname)){
                System.out.println("CUniverse:  object found ");
                System.out.println("CUniv : "+objname+"traslate x :"+deltapos.x+"  , y"+deltapos.y+" z:"+deltapos.z);
+               System.out.println("CUniv : "+objname+"rotate x :"+deltarot.x+"  , y"+deltarot.y+" z:"+deltarot.z);
                co.updatePosition(deltapos);
                co.updateRotation(deltarot);
               }
@@ -150,15 +156,21 @@ public class CUniv {
          //  In case of updatinf the point of view 
          for(CPointOfView cpov :_listCPOV ){
            if( cpov.getName().equals( objname)){
-               System.out.println("CUniv:  object POV found ");
-               System.out.println("CUniv : "+objname+"traslate x :"+deltapos.x+"  , y"+deltapos.y+" z:"+deltapos.z);
+              // System.out.println("CUniv:  object POV found ");
+              // System.out.println("CUniv : "+objname+"translate x :"+deltapos.x+"  , y"+deltapos.y+" z:"+deltapos.z);
+              //  System.out.println(" rotation: x :"+ deltarot.x+" y :"+deltarot.y+" z:"+deltarot.z);
                cpov.updatePosition(deltapos);
                cpov.updateRotation(deltarot);
                // Check if it is my point of view then move my camera: 
                if(cpov.getName().equals(POV_TAG)){
-                   System.out.println("CUniv:  Its my camera , I have to move it  by :"+
-                           "x :"+ deltapos.x+" y :"+deltapos.y+" z:"+deltapos.z);
-                   puniv.c2pMoveCamera( deltapos.x,deltapos.y,deltapos.z);
+                   
+                   //System.out.println("CUniv:  Its my camera");
+                   //System.out.println(" translate : x :"+ deltapos.x+" y :"+deltapos.y+" z:"+deltapos.z);
+                   //System.out.println(" rotation: x :"+ deltarot.x+" y :"+deltarot.y+" z:"+deltarot.z);
+                  
+                   puniv.c2pRotateCamera(deltarot.x, deltarot.y, deltarot.z);
+                   puniv.c2pMoveCamera( deltapos.x,deltapos.y,deltapos.z); 
+                   
                 }else{
                    System.out.println("CUniv: It is not my camera this one ");
                   }

@@ -15,17 +15,24 @@ public class CPointOfView {
     
     
       private  APointOfView obj;
-      private PointOfView  pobj;  
+      private  PointOfView  pobj;  
 
      public CPointOfView(String name, Vector3d pos , int geom){
            obj=  new APointOfView(pos, name,geom);
-           pobj = new PointOfView();
+           pobj = new PointOfView(this);
      } 
       
     public APointOfView getObj() {
         return obj;
     }
-
+    
+     public Vector3d getPosition(){
+         return   obj.getPosition();
+    }
+     
+    public  APointOfView getAbstraction(){
+          return obj;
+    }
     public String getName(){
        return obj.getName();
     }

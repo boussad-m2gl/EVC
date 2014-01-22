@@ -72,18 +72,16 @@ public class PObject {
                          
                           VrmlLoader loader = new VrmlLoader () ;
                             try {
-                                   System.out.println(" PObjet : load the file :"+"vrmlFiles/"+_cobj.getAbstraction().getPath_vrml());
+                                    System.out.println(" PObjet : load the file :"+"vrmlFiles/"+_cobj.getAbstraction().getPath_vrml());
                                     Scene scenevrml = loader.load (_cobj.getAbstraction().getPath_vrml()) ; //selFile.getAbsolutePath(
+                                    System.out.println(" --- Obj name to set is "+_cobj.getName());
+                                    scenevrml.getSceneGroup ().setName(_cobj.getName());
                                     objTrans.addChild (scenevrml.getSceneGroup ()) ;
                             
                             }catch (Exception e){
 
                                         e.printStackTrace();
                             }   
-                         
-                         
-                         
-                         
                          
                        }else{
                            System.out.println("unknow object type");
@@ -95,16 +93,7 @@ public class PObject {
 		_objTrans = objTrans;
                 // set the name
                 _objTrans.setName(_cobj.getAbstraction().getName());
-               /* }
-                else{
-                    Cone cc = new Cone(1.0f, 2.0f, Cone.GENERATE_NORMALS, new Appearance());
-                    
-                    cc.setName(_cobj.getName());
-                    objTrans.addChild(cc);
-                    _objTrans = objTrans;
-                    // set the name
-                    _objTrans.setName(_cobj.getAbstraction().getName());
-                }*/
+              
    }
 
    

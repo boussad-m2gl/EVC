@@ -97,7 +97,7 @@ public class ServerProxy  {
           servObjList.add(objname); 
          // Multicast 
                 /* Evoie des commandes  de creatio de plusieurs objects */
-                SCMessage mes1 = new SCMessage(objname, OpType.CREATE_POV_OP, new Vector3d (1, 0, -3),//0,0,0
+                SCMessage mes1 = new SCMessage(objname, OpType.CREATE_POV_OP, new Vector3d (x, y, z),//1, 0, -3
                         new Vector3d (0, 0, 0),ObjType.SPHERE,false,"");
              
                // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
