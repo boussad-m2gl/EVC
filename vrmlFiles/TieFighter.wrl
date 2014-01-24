@@ -784,7 +784,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.266667 0.14902 0.14902
 #  specularColor 0.498039 0.498039 0.498039
-  emissiveColor 255 255 255
+  emissiveColor 255 192 56
   shininess 0.078125
   ambientIntensity 0.8
   transparency 0.000000
@@ -801,7 +801,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.372549 0.372549 0.372549
 #  specularColor 0.498039 0.498039 0.498039
-  emissiveColor 255 255 255
+  emissiveColor 12 149 210
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -2309,7 +2309,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.647059 0.427451 0.168627
  # specularColor 0.498039 0.498039 0.498039
-  emissiveColor 255 255 255
+  emissiveColor 194 90 34
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -2418,7 +2418,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.647059 0.647059 0.647059
  # specularColor 0.498039 0.498039 0.498039
-  emissiveColor 255 255 255
+  emissiveColor 34 23 210
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -3187,7 +3187,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.647059 0.647059 0.647059
 #  specularColor 0.498039 0.498039 0.498039
-  emissiveColor 255 255 255
+  emissiveColor 74 25 190
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -4416,7 +4416,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.647059 0.647059 0.647059
   # specularColor 0.498039 0.498039 0.498039
-  emissiveColor 255 255 255
+  emissiveColor 127 176 56
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -4825,7 +4825,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.145098 0.145098 0.329412
 #  specularColor 0.501961 0.501961 0.501961
-  emissiveColor 0 0 0
+  emissiveColor 56 55 245
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -4871,7 +4871,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.647059 0.243137 0.243137
 #  specularColor 0.498039 0.498039 0.498039
-  emissiveColor 0 0 0
+  emissiveColor 78 36 233
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
@@ -4908,7 +4908,7 @@ appearance Appearance {
  material Material {
   diffuseColor 0.14902 0.14902 0.439216
  # specularColor 0.498039 0.498039 0.498039
-  emissiveColor 0 0 0
+  emissiveColor 55 99 123
   shininess 0.078125
   transparency 0.000000
     ambientIntensity 0.8
