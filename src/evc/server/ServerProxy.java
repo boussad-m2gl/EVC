@@ -68,13 +68,13 @@ public class ServerProxy  {
        
    } 
     
-  public void diffuseInitPointtOfView(){
+ /* public void diffuseInitPointtOfView(){
       System.out.println("ServerProxy:  Server diffuse init point of view ");
        
      try {
          
          // Multicast 
-                /* Evoie des commandes  de creatio de plusieurs objects */
+                
                 SCMessage mes1 = new SCMessage("", OpType.INIT_POV_OP, new Vector3d (0, 0,0),//0,0,0
                         new Vector3d (0, 0, 0),ObjType.SPHERE,false,"");
                
@@ -86,7 +86,7 @@ public class ServerProxy  {
                     Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
                 }
   
-  } 
+  } */
    
   // Normally this one will be used to create Objects of type point of view 
   public void diffuseCreatePOVObject(String objname,double x, double y, double z,int geom, boolean isVrml,
@@ -99,8 +99,6 @@ public class ServerProxy  {
                 /* Evoie des commandes  de creatio de plusieurs objects */
                 SCMessage mes1 = new SCMessage(objname, OpType.CREATE_POV_OP, new Vector3d (x, y, z),//1, 0, -3
                         new Vector3d (0, 0, 0),ObjType.SPHERE,false,"");
-             
-               // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
                 // diffuser les orders  au clients 
                 mulicastServ.diffuseMessage(mes1);
                 
@@ -125,7 +123,6 @@ public class ServerProxy  {
                 /* Evoie des commandes  de creatio de plusieurs objects */
                 SCMessage mes1 = new SCMessage(objId, OpType.CREATE_OP, new Vector3d (1, 0, -3),
                         new Vector3d (0, 0, 0),geom,isVrml,_vrmlPath);
-               // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
                 // diffuser les orders  au clients 
                 mulicastServ.diffuseMessage(mes1);
                // diffuse(mes2);
@@ -134,26 +131,6 @@ public class ServerProxy  {
                 }
      
   }
-  
- /* public void diffuseCreateVRMLObject(double x, double y, double z){
-        System.out.println(" ServerProxy : diffuse create objet");
-     try {
-           String objId;
-           objId="object"+(servObjList.size()+1);
-           servObjList.add(objId);     
-         // Multicast 
-               
-                SCMessage mes1 = new SCMessage(objId, OpType.CREATE_VRMLOP, new Vector3d (1, 0, -3),
-                        new Vector3d (0, 0, 0),typeObjet);
-               // S2CMessage mes2 = new S2CMessage("object2", OpType.CREATE, 0.0, -1, 0, -3);
-                // diffuser les orders  au clients 
-                mulicastServ.diffuseMessage(mes1);
-               // diffuse(mes2);
-                } catch (IOException ex) {
-                    Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
-                }
-     
-  }*/
   
   public void diffuseUpdateObject(String objectId, Vector3d delatTrans ,Vector3d delatRot ){
            System.out.println(" ServerProxy : diffuse translate  objet : by values:  ");

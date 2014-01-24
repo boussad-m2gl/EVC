@@ -401,21 +401,21 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             }
         });
 
-        butRotZ.setText("Rotate Z Axis");
+        butRotZ.setText("Rot Z");
         butRotZ.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butRotZActionPerformed(evt);
             }
         });
 
-        butRotY.setText("Rotate Y Axis");
+        butRotY.setText("Rot Y ");
         butRotY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butRotYActionPerformed(evt);
             }
         });
 
-        butRotX.setText("Rotate X axis");
+        butRotX.setText("Rot X ");
         butRotX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butRotXActionPerformed(evt);
@@ -495,11 +495,11 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bSlideLeft)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(butNewObj)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnCone)))
+                        .addComponent(jBtnCone))
+                    .addComponent(bSlideLeft, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -519,23 +519,29 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                             .addComponent(bLower, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(objectSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, Short.MAX_VALUE)
-                                .addComponent(jButton12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton17))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(butRotX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                                .addComponent(jButton12))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(butRotX)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbtnClientPov)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(butRotY)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jButton18)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jbtnClientPov)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(butRotY)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(butRotZ))))))
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jButton17))
+                                    .addComponent(butRotZ))))
+                        .addGap(55, 55, 55))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(vrmlFileLoader)
@@ -569,15 +575,16 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                     .addComponent(butRotY)
                     .addComponent(butRotX))
                 .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bSlideLeft)
-                    .addComponent(bMoveBackwards)
-                    .addComponent(bslideRight)
-                    .addComponent(bLower)
-                    .addComponent(jButton12)
-                    .addComponent(jButton17)
-                    .addComponent(jButton18)
-                    .addComponent(objectSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bSlideLeft)
+                        .addComponent(bMoveBackwards)
+                        .addComponent(bslideRight)
+                        .addComponent(bLower)
+                        .addComponent(jButton17)
+                        .addComponent(objectSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton18)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -586,7 +593,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel2.setPreferredSize(new java.awt.Dimension(544, 489));
+        jPanel2.setPreferredSize(new java.awt.Dimension(400, 300));
         jPanel2.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -604,11 +611,9 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     public void addObject(TransformGroup transGObj, String idobject) {
 
        // To delete  :  
-        System.out.println(" PUniv: set the name ob the trans obj to :"+idobject);
+       // System.out.println(" PUniv: set the name ob the trans obj to :"+idobject);
         transGObj.setName(idobject);
-        
-        
-        System.out.println("PUniv : adding object name :" + idobject);
+      //  System.out.println("PUniv : adding object name :" + idobject);
         BranchGroup newbranch = new BranchGroup();
         newbranch.setCapability(BranchGroup.ALLOW_DETACH);
         newbranch.addChild(transGObj);
@@ -639,9 +644,17 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     public void removeObject(TransformGroup transGObj, String ObjId){
      
         System.out.println("PUniv : removing object name :"+ObjId);
-       // BranchGroup branchToremove= new BranchGroup();
-       // branchToremove.addChild(transGObj);
+        //System.out.println("PUniv : removing object index :"+objectSelector.getSelectedIndex());
+        // BranchGroup branchToremove= new BranchGroup();
+        // branchToremove.addChild(transGObj);
         scene.removeChild(transGObj.getParent());
+       // objectSelector.remove(objectSelector.getItemAt(WIDTH));
+        /*   int indexToDelete=-1;
+             for(int i=0; i< objectSelector.getItemCount();i++){
+                if (objectSelector.getItemAt(i).equals(ObjId)) {indexToDelete=i; break;} 
+             }
+             if(indexToDelete != -1) objectSelector.remove(indexToDelete);
+        */
     }
     public void mouse2PupdateObject(String objname, Vector3d deltapos, Vector3d deltarot){
               _cuniv.p2cUpdateObject(objname, deltapos, deltarot);
@@ -758,8 +771,12 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 
                        if (p != null) {
 
-                          System.out.println("p!=null : "+p.getName());
-
+                              System.out.println("p!=null : "+p.getName());
+                              System.out.println(" selected objet is : "+p.getName());
+                                    String selectObject= p.getName();
+                                    currentObjName = selectObject;
+                                    selectedObject.setText(currentObjName ); 
+                                  
                        } else if (s != null) {
                                     System.out.println(" selected objet is : "+s.getName());
                                     String selectObject= s.getName();
@@ -770,7 +787,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
                                     selectedObject.setText(indexstr ); 
                                     objectSelector.setSelectedIndex(currentObjIndex);
 
-                                } else{
+                               } else{
                                         System.out.println("null");
                                       }
                   }  // end else
@@ -792,7 +809,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
          camera.setTransform(newT3D);
          
         // myPOV.setTransform(newT3D);
-         System.out.println(" New myPOV caracteristics are :  ");
+        // System.out.println(" New myPOV caracteristics are :  ");
         // System.out.println(" Position  x: " +myPOV.getPosition().x+" y :"+myPOV.getPosition().y+" z:"+myPOV.getPosition().z);
        
     }

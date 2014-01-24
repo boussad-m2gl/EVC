@@ -48,7 +48,7 @@ public class PObject {
                 switch(_cobj.getAbstraction().getGeom()){
                     case ObjType.CUBE: {
                     
-                    ColorCube cc = new ColorCube(0.2);
+                   ColorCube cc = new ColorCube(0.2);
                    cc.setName(_cobj.getName());
 		   cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
 		   objTrans.addChild(cc);
@@ -76,6 +76,10 @@ public class PObject {
                                     Scene scenevrml = loader.load (_cobj.getAbstraction().getPath_vrml()) ; //selFile.getAbsolutePath(
                                     System.out.println(" --- Obj name to set is "+_cobj.getName());
                                     scenevrml.getSceneGroup ().setName(_cobj.getName());
+                                    scenevrml.getSceneGroup().getChild(0).setName(_cobj.getName());
+                                    
+                                   
+                                    
                                     objTrans.addChild (scenevrml.getSceneGroup ()) ;
                             
                             }catch (Exception e){

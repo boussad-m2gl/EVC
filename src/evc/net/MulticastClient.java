@@ -19,9 +19,9 @@ import java.net.MulticastSocket;
 public class MulticastClient   extends Thread {
 
   private CUniv _cuniv;
-  
   private  String receptMcastAdress;
   private int receptMcastPort;
+  
   
   public MulticastClient (CUniv cuniv) {
      this._cuniv = cuniv;

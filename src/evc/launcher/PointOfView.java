@@ -24,9 +24,6 @@ import javax.vecmath.Vector3d;
 public class PointOfView {
  
     CPointOfView _cpov;
-        
-    //CObject  _cobj;
-    
     TransformGroup _pofvTrans;
     
    public PointOfView(CPointOfView cpv){
@@ -40,13 +37,7 @@ public class PointOfView {
 		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		objTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-                
-                
-                /* ColorCube cc = new ColorCube(0.2);
-                   cc.setName(_cobj.getName());
-		   cc.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
-		   objTrans.addChild(cc);*/
-                
+              
                 Sphere sphere = new Sphere(0.10f);  // Sphere(0.25f);
                 sphere.setName(_cpov.getName());
 		Appearance sphereAppearance = new Appearance();
@@ -56,7 +47,7 @@ public class PointOfView {
                 objTrans.addChild(sphere);
                 
                 _pofvTrans= objTrans;
-                 _pofvTrans.setName(_cpov.getAbstraction().getName());
+                _pofvTrans.setName(_cpov.getAbstraction().getName());
     }
     
    public TransformGroup getPresentation3d(){
@@ -91,7 +82,9 @@ public class PointOfView {
   
                 Transform3D oldT3D = new Transform3D();
 		this.get3DPresentation().getTransform(oldT3D);
-				
+			if(rx !=0 )  rx=0.005;
+                        if(ry !=0 )  ry=0.005;
+                        if(rz !=0 )  rz=0.005;
 		Vector3d rotate = new Vector3d();
                 rotate.set(rx, ry, rz);
                 

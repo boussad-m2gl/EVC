@@ -10,7 +10,7 @@ import javax.vecmath.Vector3d;
 
 /**
  *
- * @author eagle
+ * @author me
  */
 public class AObject {
     

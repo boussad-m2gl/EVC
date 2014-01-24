@@ -11,7 +11,9 @@ import javax.vecmath.Vector3d;
 
 /**
  *
- * @author eagle
+ * @author me
+ * 
+ * -  Implementation of the different methods that are invoked by the client 
  */
 public class C2SImple extends UnicastRemoteObject implements  C2SInterface{
     
@@ -22,20 +24,15 @@ public class C2SImple extends UnicastRemoteObject implements  C2SInterface{
     }
      @Override
     public void c2screateObject(double x, double y, double z, int geom, boolean isVrml, String _path) throws RemoteException {
-          System.out.println(" Server received create object .....");
+          //System.out.println(" Server received create object .....");
          _prx.diffuseCreateObject(x,y,z, geom, isVrml, _path);
     }
  
     public void c2screateObject(double x, double y, double z) throws RemoteException {
-       System.out.println(" Server received create object .....");
-      // _prx.diffuseCreateObject(x,y,z);
+         System.out.println(" Server received create object .....");
+        // _prx.diffuseCreateObject(x,y,z);
     }
-    
-   /* public void c2screateVRMLObject(double x, double y, double z) throws RemoteException {
-       System.out.println(" Server received create object .....");
-       _prx.diffuseCreateVRMLObject(x,y,z);
-    }*/
-
+  
     @Override
     public void c2cUpdateObject(String obId, Vector3d deltaTrans, Vector3d delatRot) throws RemoteException {
         System.out.println(" Server received update operation from client  :  values ");
@@ -55,9 +52,4 @@ public class C2SImple extends UnicastRemoteObject implements  C2SInterface{
          _prx.diffuseCreatePOVObject(povid, vectTrans.x,vectTrans.y, vectTrans.z, ObjType.SPHERE, false, "");
     }
 
-   
-
-   
-  
-    
 }

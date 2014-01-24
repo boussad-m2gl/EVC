@@ -22,8 +22,7 @@ public class CUniv {
     
     
      private PUniv puniv;
-     private ArrayList<CObject>  liCntrlObject;
-    
+     private ArrayList<CObject>  liCntrlObject; 
      private ArrayList<CPointOfView> _listCPOV;
      private String POV_TAG;  // to identify the point of view of current client
              
@@ -70,9 +69,8 @@ public class CUniv {
           } ;break;
           case OpType.CREATE_POV_OP:{  // pour creer Un poiv , il on a besoin de sont id c'est tt, as defaut c'est une sphere
              System.out.println(" CUniv : received creation of POV  ");
-                createPOVObject(mess.getIdMessage(),mess.getDelta_trans(),mess.getDelta_rot(),
-                  
-                  mess.getGeometry(),mess.isIsVrmlFile(), mess.getObj_path());
+                createPOVObject(mess.getIdMessage(),mess.getDelta_trans(),mess.getDelta_rot(),   
+                mess.getGeometry(),mess.isIsVrmlFile(), mess.getObj_path());
           };break;    
           default:  
               System.err.println(" Client received unknown message ");
@@ -125,11 +123,7 @@ public class CUniv {
             String path_vrml){
         
          System.out.println(" ****** create obj"+obId+" , X :"+deltapos.x+"  Y :"+deltapos.y+" Z:"+deltapos.z);
-         // create object with the correspondig coordinate 
-         //CObject obj1 = new CObject(new Vector3d(deltapos.x,deltapos.y,deltapos.z),obId);
-         
-         CObject obj1 = new CObject(new Vector3d(deltapos.x,deltapos.y,deltapos.z),obId,geom,isVrml,path_vrml);
-         
+         CObject obj1 = new CObject(new Vector3d(deltapos.x,deltapos.y,deltapos.z),obId,geom,isVrml,path_vrml);         
          liCntrlObject.add(obj1); 
          puniv.addObject(obj1.getPrentation().get3DPresentation(), obId);
          
@@ -153,27 +147,18 @@ public class CUniv {
                co.updateRotation(deltarot);
               }
          }
-         //  In case of updatinf the point of view 
+         //  In case of updating the point of view 
          for(CPointOfView cpov :_listCPOV ){
            if( cpov.getName().equals( objname)){
-              // System.out.println("CUniv:  object POV found ");
-              // System.out.println("CUniv : "+objname+"translate x :"+deltapos.x+"  , y"+deltapos.y+" z:"+deltapos.z);
-              //  System.out.println(" rotation: x :"+ deltarot.x+" y :"+deltarot.y+" z:"+deltarot.z);
                cpov.updatePosition(deltapos);
                cpov.updateRotation(deltarot);
                // Check if it is my point of view then move my camera: 
-               if(cpov.getName().equals(POV_TAG)){
-                   
-                   //System.out.println("CUniv:  Its my camera");
-                   //System.out.println(" translate : x :"+ deltapos.x+" y :"+deltapos.y+" z:"+deltapos.z);
-                   //System.out.println(" rotation: x :"+ deltarot.x+" y :"+deltarot.y+" z:"+deltarot.z);
-                  
+               if(cpov.getName().equals(POV_TAG)){    
                    puniv.c2pRotateCamera(deltarot.x, deltarot.y, deltarot.z);
                    puniv.c2pMoveCamera( deltapos.x,deltapos.y,deltapos.z); 
-                   
                 }else{
-                   System.out.println("CUniv: It is not my camera this one ");
-                  }
+                      // System.out.println("CUniv: It is not my camera this one ");
+                     }
               }
         }
          
@@ -203,27 +188,14 @@ public class CUniv {
        cli_prx.reQ2ServerCreate(deltaTrans, delatRot, geom, isVrml, _vrmlPath);
     }
     
-   /* public void p2cCreateObject(){
-     // cli_prx.requestToServerCreate();
-        cli_prx.requestToServerOperation("", new Vector3d(0,0,0),  new Vector3d(0,0,0),OpType.CREATE_OP);
-        
-    }  */
-    
-   /* public void p2cCreateVRMLObject(){
-     // cli_prx.requestToServerCreate();
-        cli_prx.requestToServerOperation("", new Vector3d(0,0,0),  new Vector3d(0,0,0),OpType.CREATE_VRMLOP);
-        
-    } */
-    
+
     public void p2cUpdateObject(String objname,Vector3d deltapos, Vector3d deltarot){
         
        //cli_prx.requestToServerOperation(objname, deltapos, deltarot, OpType.UPDATE_OP); 
         cli_prx.reQ2ServerUpdate(objname, deltapos, deltarot);
     
     }
-   /* public void p2cTranslateLeft(String objId, Vector3d deltaTrans, Vector3d delatRot){
-      cli_prx.requestToServerOperation(objId, deltaTrans,delatRot, OpType.UPDATE_OP);
-    }*/
+   
     
     public void p2cDeleteObject(String objName){
       // cli_prx.requestToServerOperation(objName, new  Vector3d(), new Vector3d(),OpType.DELATE_OP);

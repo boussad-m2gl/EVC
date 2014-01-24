@@ -9,7 +9,9 @@ import javax.vecmath.Vector3d;
 
 /**
  *
- * @author eagle
+ * @author me
+ * 
+ *    -  Different methods that can be invoked by the client 
  */
 public interface C2SInterface extends Remote {
     

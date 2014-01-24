@@ -8,7 +8,9 @@ import javax.vecmath.Vector3d;
 
 /**
  *
- * @author eagle
+ * @author  me
+ * 
+ * 
  */
 public class SCMessage implements java.io.Serializable{
     
@@ -104,7 +106,5 @@ public class SCMessage implements java.io.Serializable{
         this._operationType = operationType;
     }
 
-  
-    
     
 }

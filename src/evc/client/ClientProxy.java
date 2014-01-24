@@ -83,29 +83,7 @@ public class ClientProxy {
 		e.printStackTrace();
        }
     }
-     
-  /*  public  void requestToServerOperation(String objId, Vector3d deltaTrans, Vector3d delatRot, int oper){
-
-    
-       
-	try{
-		
-                switch (oper){
-                    case  OpType.CREATE_OP: clientrmi.getInstance().c2screateObject(0, 0, 0,ObjType.CUBE, false,null)  ; break ; 
-                    case  OpType.UPDATE_OP:{ 
-                        clientrmi.getInstance().c2cUpdateObject(objId, deltaTrans, delatRot); } break ; 
-                    case OpType.DELATE_OP: {
-                         clientrmi.getInstance().c2sDeleteObject(objId, deltaTrans, delatRot);
-                    }  
-                     // TODO : add rotation operation        
-                }
-		//rmiServer.c2stranslateObjectLeft(objId, valtrans);
-	}
-	catch(RemoteException e){
-		e.printStackTrace();
-	}
-	
-	}*/
+ 
  
 }
 

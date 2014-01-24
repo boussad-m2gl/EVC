@@ -17,19 +17,6 @@ public class CObject {
     private  AObject  obj;
     private  PObject  pobj;   //  pas besoin normalement
     
-   /* public final static int CREATE_OP =0;
-    public final static int LEFT_OP =1;
-    public final static int RIGHT_OP =2;
-    public final static int UP_OP =3;
-    public final static int DOWN_OP =4;
-    public final static int FORWARD_OP =5;
-    public final static int BACKWARD_OP =6;
-    
-    public final static int OP_ROT_X=10;
-    public final static int OP_ROT_Y=11;
-    public final static int OP_ROT_Z=12;*/
-    
-    
     /*public CObject(){
        obj = new AObject(new Vector3d(1,0,-3),"Object1");
        pobj = new PObject(this);
@@ -137,13 +124,7 @@ public class CObject {
      public void updateAbstraction(){
           obj.setPosition(pobj.getPosition());
           obj.setRotation(pobj.getRotation());
-          
-          // 
-        /*  Vector3d newpos = pobj.getPosition();
-            Quat4d newrot = pobj.getRotation();
-            System.out.println("CObject : new position x:"+newpos.x+" , y:"+newpos.y+" , z:"+newpos.z);
-            System.out.println("CObject : new rot x:"+newrot.x+" , y:"+newrot.y+" , z:"+newrot.z+",  w:"+newrot.w);
-         */
+       
      }  
      
 }
