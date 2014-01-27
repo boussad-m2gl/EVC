@@ -8,7 +8,7 @@ import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.geometry.Cone;
 import evc.client.control.CObject;
-import evc.message.ObjType;
+import evc.util.ObjType;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Geometry;
 import javax.media.j3d.Transform3D;
@@ -19,12 +19,14 @@ import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
 
 /**
  *
- * @author eagle
+ * @author me
+ *  
+ *    Controle de l'objet virtuel 
  */
 public class PObject {
     
     
-    CObject  _cobj;
+    CObject  _cobj;  // 
     TransformGroup _objTrans;
     
    public  PObject(CObject  cobj){
@@ -33,8 +35,10 @@ public class PObject {
                  this.computePresentation();
     }
    
-   // Pour le moment il ne fait que faire des cube
    
+   /**
+    * Création de la géometrie adequate pour l'objet virtuel 
+    */
    private void computePresentation(){
        
                 Transform3D translation = new Transform3D();
@@ -100,7 +104,12 @@ public class PObject {
               
    }
 
-   
+   /**
+    * Translation avec x, y, z values 
+    * @param x
+    * @param y
+    * @param z 
+    */
    public void translate(float x, float y, float z){
       
          Vector3d vectTrans= new Vector3d(x,y,z);
@@ -136,7 +145,10 @@ public class PObject {
                 
   }
   
-  
+  /**
+   * Translate par deltapos value 
+   * @param delatpos 
+   */
   public void translate(Vector3d delatpos){
                 Transform3D oldT3D = new Transform3D () ;
 		 _objTrans.getTransform (oldT3D) ;

@@ -11,10 +11,13 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+
 /**
  * 
+ * @author me
+ * 
+ * Classe RMI coté serveur 
  */
-
 public  class RmiServer {
 
     int thisPort;

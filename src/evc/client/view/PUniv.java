@@ -14,7 +14,7 @@ import com.sun.j3d.utils.picking.PickResult;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import evc.client.control.CObject;
 import evc.client.control.CUniv;
-import evc.message.ObjType;
+import evc.util.ObjType;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
@@ -41,7 +40,6 @@ import javax.media.j3d.TransformGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
-import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
@@ -75,8 +73,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
      */
     public PUniv(CUniv cuniv) {
         
-        _cuniv = cuniv;
-        
+        _cuniv = cuniv;    
         this.getContentPane().setMinimumSize(new Dimension(900, 600));
         this.getContentPane().setPreferredSize(new Dimension(900, 600));
         
@@ -84,9 +81,6 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         init();                                                                 // initialiser univers avec code de navigational simple universe
 
         this.setVisible(true); 
-        // Peaker
-        
-        // To DELETE :  
         
    }
 
@@ -95,19 +89,17 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     }*/
 
     public void init () {
-        GraphicsConfiguration config =
-	    SimpleUniverse.getPreferredConfiguration () ;
-
+        GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration () ;
 	 c = new Canvas3D (config) ;
 	jPanel2.add(c);
 
-        // To delete
-            c.addMouseListener(this);
-            c.addKeyListener(this);
-        // end of to de
+         // Ajout de listeners  
+         c.addMouseListener(this);
+         c.addKeyListener(this);
+        
         
 	// Create a simple scene and attach it to the virtual universe
-	u = new SimpleUniverse (c) ;
+	 u = new SimpleUniverse (c) ;
 	 scene = createSceneGraph () ;
 
  	// création d'un navigateur
@@ -116,33 +108,14 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 	keyNavBeh.setSchedulingBounds (new BoundingSphere (new Point3d (), 1000.0)) ;  
 	scene.addChild (keyNavBeh) ;
 
-        //  Adding lights 
-        
         BoundingSphere worldBounds = new BoundingSphere(new Point3d(0.0, 0.0,
         0.0), // Center
         1000.0); // Extent
 
-    // Set the light color and its influencing bounds
-     /*   AmbientLight light = new AmbientLight();
-        light.setEnable(true);
-        Color3f c3f = new Color3f(Color.BLUE); 
-        light.setColor(c3f);
-        light.setCapability(AmbientLight.ALLOW_STATE_WRITE);
-        light.setCapability(AmbientLight.ALLOW_COLOR_WRITE);
-        light.setInfluencingBounds(worldBounds);
-       
-        scene.addChild(light);*/
-        
-        
-        
-         // To delete
           scene.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
           scene.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
           
           scene.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-          /*scene.setCapability(BranchGroup.ALLOW_DETACH);*/
-        //
-        
         
         // Have Java 3D perform optimizations on this scene graph.
         scene.compile () ;
@@ -165,7 +138,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         } catch (IOException ex) {
             Logger.getLogger(PUniv.class.getName()).log(Level.SEVERE, null, ex);
         }
-       /* ImageComponent2D imageComponent2D = new ImageComponent2D(ImageComponent2D.FORMAT_RGB, image);
+       ImageComponent2D imageComponent2D = new ImageComponent2D(ImageComponent2D.FORMAT_RGB, image);
         
         Background background = new Background();
         
@@ -176,7 +149,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         
         BranchGroup brback = new BranchGroup();
         brback.addChild(background);
-        u.getViewingPlatform ().addChild(brback);*/
+        u.getViewingPlatform ().addChild(brback);
         
         
    }
@@ -185,29 +158,19 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 		      // on creer le BG principale
 		
                  BranchGroup objroot = new BranchGroup();
-		      //on crée une matrice de transformation pour faire tourner le cub
+		 //on crée une matrice de transformation pour faire tourner le cub
 		 rotate = new Transform3D();
 		 rotate.rotY(Math.PI/3.0d); // rotation d'angle Pi/3
-		      // on creer un groupe de tranformation  rotate suivant la matrice de tranformation rotate
-		//  objTourne = new TransformGroup(rotate);
-                 
-               // _cuniv.initObjectList();
-                Collection<CObject> liobj =  _cuniv.getListObject();
-                for(CObject cobj : liobj){
-                       // objroot.addChild(cobj.getPrentation().get3DPresentation());
-                         objectSelector.addItem(cobj.getName());
-                }
-   
-                  // ---> To delate :  added to  enable the ineraction 
-               // 
+		 // on creer un groupe de tranformation  rotate suivant la matrice de tranformation rotate
+		
+                 // ajout d'u ouse interactor
                 MouseInteractor mi = new MouseInteractor (objroot,this) ;
 		BoundingSphere bounds = new BoundingSphere (new Point3d (0.0, 0.0, 0.0),
 		      1.0) ;
 		mi.setSchedulingBounds (bounds) ;
 		// Add the behavior to the scene graph
 		objroot.addChild (mi) ;
-                
-                //  ---> end of to delate
+             
                 return objroot;
 	}
     
@@ -218,58 +181,55 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void butRotXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butRotXActionPerformed
-              // _cuniv.rotateObjectX(currentObjName, Rotation_Value);
+              
                _cuniv.p2cUpdateObject( currentObjName,new Vector3d(0,0,0), new Vector3d(Rotation_Value,0,0));
     }//GEN-LAST:event_butRotXActionPerformed
 
     private void butRotYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butRotYActionPerformed
-                   //_cuniv.rotateObjectY(currentObjName, Rotation_Value);
-                 //_cuniv.p2cRotateY(currentObjName, (float)Rotation_Value);
-        _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,0), new Vector3d(0,Rotation_Value,0));
+               
+             _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,0), new Vector3d(0,Rotation_Value,0));
     }//GEN-LAST:event_butRotYActionPerformed
 
     private void butRotZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butRotZActionPerformed
-               //_cuniv.rotateObjectZ(currentObjName, Rotation_Value);
-                // _cuniv.p2cRotateZ(currentObjName, (float)Rotation_Value);
+             
            _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,0), new Vector3d(0,0,Rotation_Value));
     }//GEN-LAST:event_butRotZActionPerformed
 
     private void bRiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRiseActionPerformed
            
           _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,Translation_Value,0), new Vector3d(0,0,0));
-           //_cuniv.p2cTranslateUp(currentObjName, Translation_Value);
+          
     }//GEN-LAST:event_bRiseActionPerformed
 
     private void bLowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLowerActionPerformed
             
             _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,-Translation_Value,0), new Vector3d(0,0,0));
-           //_cuniv.p2cTranslateDown(currentObjName, Translation_Value);
+           
     }//GEN-LAST:event_bLowerActionPerformed
 
     private void bMoveForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMoveForwardActionPerformed
              
             _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,Translation_Value), new Vector3d(0,0,0));
-             // _cuniv.p2cTranslateForward(currentObjName, Translation_Value);
+             
     }//GEN-LAST:event_bMoveForwardActionPerformed
 
     private void bslideRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bslideRightActionPerformed
          
                _cuniv.p2cUpdateObject(currentObjName, new Vector3d(Translation_Value,0,0), new Vector3d(0,0,0)); 
-               System.out.println(" Client wants to move right ");
-               // _cuniv.p2cTranslateRight(currentObjName, Translation_Value);
+              
     }//GEN-LAST:event_bslideRightActionPerformed
 
     private void bMoveBackwardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMoveBackwardsActionPerformed
              
              _cuniv.p2cUpdateObject(currentObjName, new Vector3d(0,0,-Translation_Value), new Vector3d(0,0,0));
-            // _cuniv.p2cTranslateBackward(currentObjName, Translation_Value);
+            
     }//GEN-LAST:event_bMoveBackwardsActionPerformed
 
     private void bSlideLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSlideLeftActionPerformed
              
              _cuniv.p2cUpdateObject(currentObjName, new Vector3d(-Translation_Value,0,0), new Vector3d(0,0,0));  
-            System.out.println(" Client wants to move left ");
-            // _cuniv.p2cTranslateLeft(currentObjName, Translation_Value);
+             // System.out.println(" Client wants to move left ");
+           
     }//GEN-LAST:event_bSlideLeftActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
@@ -610,10 +570,9 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     }//GEN-LAST:event_objectSelectorActionPerformed
     public void addObject(TransformGroup transGObj, String idobject) {
 
-       // To delete  :  
-       // System.out.println(" PUniv: set the name ob the trans obj to :"+idobject);
+     
         transGObj.setName(idobject);
-      //  System.out.println("PUniv : adding object name :" + idobject);
+        //  System.out.println("PUniv : adding object name :" + idobject);
         BranchGroup newbranch = new BranchGroup();
         newbranch.setCapability(BranchGroup.ALLOW_DETACH);
         newbranch.addChild(transGObj);
@@ -644,9 +603,6 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
     public void removeObject(TransformGroup transGObj, String ObjId){
      
         System.out.println("PUniv : removing object name :"+ObjId);
-        //System.out.println("PUniv : removing object index :"+objectSelector.getSelectedIndex());
-        // BranchGroup branchToremove= new BranchGroup();
-        // branchToremove.addChild(transGObj);
         scene.removeChild(transGObj.getParent());
        // objectSelector.remove(objectSelector.getItemAt(WIDTH));
         /*   int indexToDelete=-1;
@@ -714,37 +670,10 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
         jfc.showOpenDialog(this);
         File selFile = jfc.getSelectedFile();
         
-        // at this point make arequest 
+        // passer la requete au controlleur 
         
         _cuniv.p2cCreateObject(new Vector3d(0,0,0),new Vector3d(0,0,0),-1,true,("vrmlFiles/"+selFile.getName()));
-        
-       
-      /*  VrmlLoader loader = new VrmlLoader () ;
-        try {
-            Scene scenevrml = loader.load ("vrmlFiles/"+selFile.getName()) ; //selFile.getAbsolutePath(
-
-            Transform3D translation = new Transform3D();
-            translation.setTranslation(new Vector3d(-1,1,-3));
-            TransformGroup objTrans = new TransformGroup(translation);
-           // objTrans.setName("Object"+myListOfObjects.size());
-            objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-	    objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-	    objTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-            objTrans.addChild (scenevrml.getSceneGroup ()) ;
-            // add it to the list
-            //TODO : CompletER CES LIGNE DE loader VRML 
-             //   myListOfObjects.add(objTrans);
-             //   objectSelector.addItem("Object"+myListOfObjects.size()+1);
-            // add it to the scene
-            BranchGroup newbranch = new BranchGroup();
-            newbranch.addChild(objTrans);
-            scene.addChild(newbranch);
-
-        }catch (Exception e){
-            
-            e.printStackTrace();
-        }*/
-        
+    
     }//GEN-LAST:event_vrmlFileLoaderActionPerformed
 
     private void butNewObjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNewObjActionPerformed
@@ -794,7 +723,12 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
 
     }
     
-    //  The coordinate about witch to move the camera
+     /**
+      * Deplacer la caméra des coordonnées x, y, et z
+      * @param x
+      * @param y
+      * @param z 
+      */
      public void c2pMoveCamera(double x, double y, double z){
     
         
@@ -807,11 +741,7 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
          Transform3D newT3D = new Transform3D();
          newT3D.mul(oldT3D,localT3D);          
          camera.setTransform(newT3D);
-         
-        // myPOV.setTransform(newT3D);
-        // System.out.println(" New myPOV caracteristics are :  ");
-        // System.out.println(" Position  x: " +myPOV.getPosition().x+" y :"+myPOV.getPosition().y+" z:"+myPOV.getPosition().z);
-       
+  
     }
      
      
@@ -819,7 +749,12 @@ public class PUniv extends javax.swing.JFrame  implements MouseListener, KeyList
          TransformGroup camera = u.getViewingPlatform().getViewPlatformTransform();
             
      }
-
+     /**
+      *  Tourner la caméra des coordonnées x, y, et z
+      * @param r
+      * @param y
+      * @param z 
+      */
      public void c2pRotateCamera(double r, double y, double z){
          
          

@@ -11,6 +11,8 @@ import javax.vecmath.Vector3d;
 /**
  *
  * @author me
+ * 
+ *    Abstraction de l'objet virtuel 
  */
 public class AObject {
     
@@ -55,7 +57,7 @@ public class AObject {
         _path_vrml=path_vrml;
         
     }
-   public  AObject(Vector3d pos,String name){
+    public  AObject(Vector3d pos,String name){
         _position =  pos;
         _name=  name;   
     }

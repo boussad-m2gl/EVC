@@ -10,18 +10,16 @@ import javax.vecmath.Vector3d;
 
 /**
  *
- * @author 
+ * @author me
+ *   
+ *  Controle d'un objet virtuel
  */
-public class CObject {
+public class CObject   implements  ICObject {
     
-    private  AObject  obj;
-    private  PObject  pobj;   //  pas besoin normalement
+    private  AObject  obj;    //  abstraction d'un objet virtuel  
+    private  PObject  pobj;   //  Presnetation d'un objet virtuel
     
-    /*public CObject(){
-       obj = new AObject(new Vector3d(1,0,-3),"Object1");
-       pobj = new PObject(this);
-    }*/
-    
+   
     public CObject(Vector3d pos, String name, int geom, boolean isvrml,String path_vrml){
        obj = new AObject(pos, name, geom, isvrml, path_vrml);
        pobj = new PObject(this);
@@ -31,20 +29,21 @@ public class CObject {
        obj = new AObject(pos,name);
       pobj = new PObject(this);
     }
-     
+    
+    @Override
     public AObject getAbstraction(){
          return obj;
     } 
-    
+    @Override
     public Vector3d getPosition(){
          return   obj.getPosition();
     }
     
-    
+    @Override
     public String getName(){
         return obj.getName();
     } 
-    
+    @Override
     public PObject getPrentation(){
         return pobj;
     }
@@ -101,30 +100,30 @@ public class CObject {
          pobj.rotate(0,0,rot_Value);
          updateAbstraction();
      }
-       
+      @Override 
       public void updatePosition (double x, double y, double z){
           pobj.translate( (float)x, (float)y,(float)z);
           updateAbstraction();
       }
-      
+      @Override
       public void updateRotation (double h, double p, double r){
             pobj.rotate(h, p,r);
             updateAbstraction();
       }
-       
+      @Override
        public void updatePosition (Vector3d deltapos){
           pobj.translate(deltapos);
           updateAbstraction();
       }
-      
+      @Override
       public void updateRotation (Vector3d deltarot){
             pobj.rotate(deltarot);
             updateAbstraction();
       }
+      @Override
      public void updateAbstraction(){
           obj.setPosition(pobj.getPosition());
-          obj.setRotation(pobj.getRotation());
-       
+          obj.setRotation(pobj.getRotation());   
      }  
      
 }

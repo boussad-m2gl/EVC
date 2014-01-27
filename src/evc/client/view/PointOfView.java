@@ -2,14 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package evc.launcher;
+package evc.client.view;
 
-import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.geometry.Sphere;
-import evc.client.control.CObject;
+import evc.client.control.CPointOfView;
 import java.awt.Color;
 import javax.media.j3d.Appearance;
-import javax.media.j3d.Geometry;
 import javax.media.j3d.Material;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -19,7 +17,8 @@ import javax.vecmath.Vector3d;
 
 /**
  *
- * @author eagle
+ * @author me
+ *  Presentation d'un point de vue 
  */
 public class PointOfView {
  

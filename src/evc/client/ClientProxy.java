@@ -4,10 +4,7 @@
  */
 package evc.client;
 
-import evc.client.control.CObject;
 import evc.client.control.CUniv;
-import evc.message.ObjType;
-import evc.message.OpType;
 import evc.net.MulticastClient;
 import evc.net.RmiClient;
 import java.io.IOException;
@@ -18,7 +15,7 @@ import javax.vecmath.Vector3d;
  *
  * @author eagle
  */
-public class ClientProxy {
+public class ClientProxy implements  IClientProxy{
     
 
    private  CUniv cuniv;
@@ -31,12 +28,11 @@ public class ClientProxy {
       //  Creation du ontroller de l'univer 
       cuniv= new CUniv(this);
   
-    // Multi cast Test  :   
+      // MultiCast  thread
        clientMcast = new MulticastClient(cuniv);
-       clientMcast.start();
-     
-     
-     //RMI
+       clientMcast.start(); //  demarer le multi cast thread coté client 
+ 
+     //RMI  coté client 
       clientrmi = new RmiClient(); 
   
   }   
@@ -45,6 +41,7 @@ public class ClientProxy {
      new ClientProxy ();
   }
  
+  @Override
   public void reQ2ServerCreate(Vector3d deltaTrans, Vector3d delatRot, 
           int geom, boolean isVrml, String _vrmlPath){
     try{
@@ -54,7 +51,7 @@ public class ClientProxy {
        }
   }
 
-  
+   @Override
     public void reQ2ServerUpdate(String objId, Vector3d deltaTrans, Vector3d delatRot){
         try{
           clientrmi.getInstance().c2cUpdateObject(objId, deltaTrans, delatRot); 
@@ -64,18 +61,18 @@ public class ClientProxy {
        
     }
     
-    
-     public void reQ2ServerDelete(String objId, Vector3d deltaTrans, Vector3d delatRot){
+    @Override
+     public void reQ2ServerDelete(String objId){
        
           try{
-                clientrmi.getInstance().c2sDeleteObject(objId, deltaTrans, delatRot);
+                clientrmi.getInstance().c2sDeleteObject(objId);
             }catch(RemoteException e){
 		e.printStackTrace();
        }
           
         
     }
-     
+     @Override
     public void reQ2ServerCreatePOV(String pov_name,Vector3d vectTrans){
       try{
                 clientrmi.getInstance().c2sCreatePOV(pov_name,vectTrans);

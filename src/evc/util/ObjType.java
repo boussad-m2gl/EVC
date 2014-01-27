@@ -2,11 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package evc.message;
+package evc.util;
+
 
 /**
- *
- * List of different  object we can create
+ * 
+ * @author me
+ * List  des differentes géometrie qui peuvent etre créer  
+ *   - on se limite a 3 mais peuvent etre extensible 
  */
 public class ObjType {
     

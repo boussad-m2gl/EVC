@@ -12,6 +12,11 @@ import java.awt.event.* ;
 import java.util.Enumeration ;
 import com.sun.j3d.utils.picking.* ;
 
+/**
+ * 
+ * @author me
+ *    Gestion des mouvements de la souris 
+ */
 class MouseInteractor extends Behavior {
 
 	private BranchGroup branche ;

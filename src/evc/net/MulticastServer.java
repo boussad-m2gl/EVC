@@ -14,45 +14,45 @@ import java.net.InetAddress;
 
 /**
  *
- * @author eagle
+ * @author me
+ *    Multicast Classe coté Serveur 
  */
 public class MulticastServer {
-    
-  
-    DatagramSocket socket; 
+    //multicast  stuff 
+    DatagramSocket socket;
     DatagramPacket outPacket = null;
     byte[] outBuf;
-    int PORT;
-    String multicastAdr;
+    int PORT;  // multicast port
+    String multicastAdr;  // multicast adresse 
 
     public MulticastServer() {
         multicastAdr = ConfigReseau.MULTICAST_IP_ADR;
-        PORT= ConfigReseau.MULTICAST_PORT_NUMBER;
+        PORT = ConfigReseau.MULTICAST_PORT_NUMBER;
     }
-    
-    
-    
-    public  void diffuseMessage(SCMessage message) throws IOException {
-  
-        socket =  new DatagramSocket();
+    /**
+     * 
+     * @param message  : message a diffuser en multicast sur le reseau 
+     * @throws IOException 
+     */
+    public void diffuseMessage(SCMessage message) throws IOException {
+
+        socket = new DatagramSocket();
         outPacket = null;
         try {
 
-           ByteArrayOutputStream b_out = new ByteArrayOutputStream();
-           ObjectOutputStream o_out = new ObjectOutputStream(b_out);
+            ByteArrayOutputStream b_out = new ByteArrayOutputStream();
+            ObjectOutputStream o_out = new ObjectOutputStream(b_out);
 
-           o_out.writeObject(message);
+            o_out.writeObject(message);  // serialiser le message 
 
-           byte[] b = b_out.toByteArray();
+            byte[] b = b_out.toByteArray();
 
-           DatagramPacket dgram = new DatagramPacket(b, b.length,
-             InetAddress.getByName(multicastAdr), PORT); // multicast
-           socket.send(dgram);
-         }
-          catch (Exception ioe) {
-              ioe.printStackTrace();
-          System.out.println(ioe);
-         }
-   }
-     
+            DatagramPacket dgram = new DatagramPacket(b, b.length,
+                    InetAddress.getByName(multicastAdr), PORT); // multicast
+            socket.send(dgram);     //  envoie du message sur le resaux 
+        } catch (Exception ioe) {
+            ioe.printStackTrace();
+            System.out.println(ioe);
+        }
+    }
 }
